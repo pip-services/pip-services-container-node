@@ -1,14 +1,17 @@
 import { IDescriptable } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
+import { IdGenerator } from 'pip-services-commons-node';
+import { StringValueMap } from 'pip-services-commons-node';
+import { ConfigParams } from 'pip-services-commons-node';
 
 export class ContainerInfo implements IDescriptable {
-	private _descriptor = new Descriptor("pip-services-container", "container-info", "default", "1.0");
+	private _descriptor = new Descriptor("pip-services-container", "container-info", "default", "default", "1.0");
 	
 	private _name: string = "unknown";
 	private _description: string = null;
-	private _containerId: string = 'xxx'; //IdGenerator.nextLong();
+	private _containerId: string = IdGenerator.nextLong();
 	private _startTime: Date = new Date();
-	private _properties: any = {}; // new StringValueMap();
+	private _properties: StringValueMap = new StringValueMap();
 	
 	public ContainerInfo() {}
 	
@@ -34,10 +37,10 @@ export class ContainerInfo implements IDescriptable {
 	
 	public get properties(): any { return this._properties; }
 	public set properties(properties: any) {
-		this._properties = properties || {};
+		this._properties = properties || new StringValueMap();
 	}
 	
-	public static fromConfig(config: any /*ConfigParams*/): ContainerInfo {
+	public static fromConfig(config: ConfigParams): ContainerInfo {
 		let result = new ContainerInfo();
 		
 		let info = config.getSection("info");

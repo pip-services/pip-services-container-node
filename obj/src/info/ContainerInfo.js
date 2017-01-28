@@ -1,13 +1,15 @@
 "use strict";
-var pip_services_commons_node_1 = require('pip-services-commons-node');
+var pip_services_commons_node_1 = require("pip-services-commons-node");
+var pip_services_commons_node_2 = require("pip-services-commons-node");
+var pip_services_commons_node_3 = require("pip-services-commons-node");
 var ContainerInfo = (function () {
     function ContainerInfo() {
-        this._descriptor = new pip_services_commons_node_1.Descriptor("pip-services-container", "container-info", "default", "1.0");
+        this._descriptor = new pip_services_commons_node_1.Descriptor("pip-services-container", "container-info", "default", "default", "1.0");
         this._name = "unknown";
         this._description = null;
-        this._containerId = 'xxx'; //IdGenerator.nextLong();
+        this._containerId = pip_services_commons_node_2.IdGenerator.nextLong();
         this._startTime = new Date();
-        this._properties = {}; // new StringValueMap();
+        this._properties = new pip_services_commons_node_3.StringValueMap();
     }
     ContainerInfo.prototype.ContainerInfo = function () { };
     ContainerInfo.prototype.getDescriptor = function () {
@@ -44,12 +46,12 @@ var ContainerInfo = (function () {
     Object.defineProperty(ContainerInfo.prototype, "properties", {
         get: function () { return this._properties; },
         set: function (properties) {
-            this._properties = properties || {};
+            this._properties = properties || new pip_services_commons_node_3.StringValueMap();
         },
         enumerable: true,
         configurable: true
     });
-    ContainerInfo.fromConfig = function (config /*ConfigParams*/) {
+    ContainerInfo.fromConfig = function (config) {
         var result = new ContainerInfo();
         var info = config.getSection("info");
         result.name = info.getAsNullableString("name");

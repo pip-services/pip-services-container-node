@@ -38,7 +38,7 @@
     "dependencies": {
         "lodash": "*",
         "async": "*",
-        "pip-services-commons-node": "git+ssh://git@github.com:pip-services/pip-services-commons-node.git"
+        "pip-services-commons-node": "^1.0.*"
     },
     "devDependencies": {
         "@types/node": "*",

@@ -1,7 +1,8 @@
 /node_modules
 /npm-debug.log
 /.idea
-/lib/**/*.map
+*.map
+/obj/test/**/*
 /config/config.json
 /config/config.yaml
 /data/dummies.json
