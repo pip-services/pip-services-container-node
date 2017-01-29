@@ -1,7 +1,7 @@
 {
     "name": "pip-services-container-node",
     "version": "1.0.0",
-    "author": "Digital Living Software Corp. <www.digitallivingsoftware.com>",
+    "author": "Conceptual Vision Consulting LLC <www.conceptual.vision>",
     "description": "IoC container for Pip.Services in Node.js",
     "contributors": [
         {
