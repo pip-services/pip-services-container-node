@@ -1,6 +1,9 @@
 import { ManagedReferences } from 'pip-services-commons-node';
-import { ReferenceException } from 'pip-services-commons-node';
+import { TypeReflector } from 'pip-services-commons-node';
+import { ReferenceException, CreateException } from 'pip-services-commons-node';
+import { IConfigurable, IReferenceable } from 'pip-services-commons-node';
 
+import { ComponentConfig } from '../config/ComponentConfig';
 import { ContainerConfig } from '../config/ContainerConfig';
 
 export class ContainerReferences extends ManagedReferences {
@@ -13,57 +16,50 @@ export class ContainerReferences extends ManagedReferences {
     }
 
     public putFromConfig(config: ContainerConfig): void {
-            // foreach (var componentConfig in config)
-            // {
-            //     object component = null;
-            //     object locator = null;
+        for(var i = 0; i < config.length; i++) {
+            let componentConfig: ComponentConfig = config[i];
+            let component: any;
+            let locator: any;
 
-            //     try
-            //     {
-            //         // Create component dynamically
-            //         if (componentConfig.Type != null)
-            //         {
-            //             locator = componentConfig.Type;
-            //             component = TypeReflector.CreateInstanceByDescriptor(componentConfig.Type);
-            //         }
-            //         // Or create component statically
-            //         else if (componentConfig.Descriptor != null)
-            //         {
-            //             locator = componentConfig.Descriptor;
-            //             component = CreateStatically(componentConfig.Descriptor);
-            //         }
+            try {
+                // Create component dynamically
+                if (componentConfig.type != null) {
+                    locator = componentConfig.type;
+                    component = TypeReflector.createInstanceByDescriptor(componentConfig.type);
+                // Or create component statically
+                } else if (componentConfig.descriptor != null) {
+                    locator = componentConfig.descriptor;
+                    component = this.createStatically(componentConfig.descriptor);
+                }
 
-            //         // Check that component was created
-            //         if (component == null)
-            //         {
-            //             throw new CreateException("CANNOT_CREATE_COMPONENT", "Cannot create component")
-            //                     .WithDetails("config", config);
-            //         }
+                // Check that component was created
+                if (component == null) {
+                    throw new CreateException("CANNOT_CREATE_COMPONENT", "Cannot create component")
+                        .withDetails("config", config);
+                }
 
-            //         // Add component to the list
-            //         if (component is ILocateable || component is IDescriptable)
-            //             _references.Put(component);
-            //         else
-            //             _references.Put(component, locator);
+                // Add component to the list
+                if (component.locate || component.getDescriptor)
+                    this._references.put(component);
+                else
+                    this._references.put(component, locator);
 
-            //         // Configure component
-            //         var configurable = component as IConfigurable;
+                if (component.configure) {
+                    // Configure component
+                    var configurable = component as IConfigurable;
+                    configurable.configure(componentConfig.config);
+                }
 
-            //         configurable?.Configure(componentConfig.Config);
-
-            //         // Set references to factories
-            //         if (component is IFactory)
-            //         {
-            //             var referenceable = component as IReferenceable;
-
-            //             referenceable?.SetReferences(this);
-            //         }
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         throw new ReferenceException(null, locator).WithCause(ex);
-            //     }
-            // }
+                // Set references to factories
+                if (component.canCreate && component.create) {
+                    var referenceable = component as IReferenceable;
+                    referenceable.setReferences(this);
+                }
+            } catch (ex) {
+                throw new ReferenceException(null, locator)
+                    .withCause(ex);
+            }
+        }
     }
 		
 }
