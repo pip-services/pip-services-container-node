@@ -5,7 +5,7 @@ import { StringValueMap } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
 
 export class ContainerInfo implements IDescriptable {
-	private _descriptor = new Descriptor("pip-services-container", "container-info", "default", "default", "1.0");
+	public static readonly descriptor: Descriptor = new Descriptor("pip-services-container", "container-info", "default", "default", "1.0");
 	
 	private _name: string = "unknown";
 	private _description: string = null;
@@ -13,10 +13,8 @@ export class ContainerInfo implements IDescriptable {
 	private _startTime: Date = new Date();
 	private _properties: StringValueMap = new StringValueMap();
 	
-	public ContainerInfo() {}
-	
 	public getDescriptor(): Descriptor { 
-        return this._descriptor; 
+        return ContainerInfo.descriptor; 
     }
 	
 	public get name(): string { return this._name; }
@@ -47,8 +45,7 @@ export class ContainerInfo implements IDescriptable {
 		result.name = info.getAsNullableString("name");
 		result.description = info.getAsNullableString("description");
 		
-		let properties = config.getSection("properties");
-		result.properties = properties;
+		result.properties = config.getSection("properties");
 				
 		return result;
 	}

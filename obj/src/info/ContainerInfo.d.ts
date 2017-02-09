@@ -2,13 +2,12 @@ import { IDescriptable } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
 export declare class ContainerInfo implements IDescriptable {
-    private _descriptor;
+    static readonly descriptor: Descriptor;
     private _name;
     private _description;
     private _containerId;
     private _startTime;
     private _properties;
-    ContainerInfo(): void;
     getDescriptor(): Descriptor;
     name: string;
     description: string;
