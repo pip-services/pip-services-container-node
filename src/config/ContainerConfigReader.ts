@@ -1,4 +1,8 @@
-import { JsonConfigReader, YamlConfigReader, ConfigException } from 'pip-services-commons-node';
+import { 
+    JsonConfigReader,
+    YamlConfigReader,
+    ConfigException
+} from 'pip-services-commons-node';
 
 import { ContainerConfig } from './ContainerConfig';
 
