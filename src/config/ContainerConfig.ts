@@ -1,6 +1,4 @@
-import { Descriptor, TypeDescriptor } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
-import { ConfigException } from 'pip-services-commons-node';
 
 import { ComponentConfig } from './ComponentConfig';
 
