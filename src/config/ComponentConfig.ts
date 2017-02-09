@@ -4,14 +4,19 @@ import { ConfigException } from 'pip-services-commons-node';
 
 export class ComponentConfig {
 
-	private _descriptor: Descriptor;
-	private _type: TypeDescriptor;
-	private _config: ConfigParams;
+	private _descriptor: Descriptor = null;
+	private _type: TypeDescriptor = null;
+	private _config: ConfigParams = null;
 
-    public constructor(descriptor: Descriptor, type: TypeDescriptor, config: ConfigParams) {
-        this.descriptor = descriptor;
-        this.type = type;
-        this.config = config;
+    public constructor(descriptor?: Descriptor, type?: TypeDescriptor, config?: ConfigParams) {
+        if (descriptor)
+            this.descriptor = descriptor;
+
+        if (type)
+            this.type = type;
+        
+        if (config)
+            this.config = config;
     }
 
 	public get descriptor(): Descriptor { 

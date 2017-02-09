@@ -4,7 +4,7 @@ export declare class ComponentConfig {
     private _descriptor;
     private _type;
     private _config;
-    constructor(descriptor: Descriptor, type: TypeDescriptor, config: ConfigParams);
+    constructor(descriptor?: Descriptor, type?: TypeDescriptor, config?: ConfigParams);
     descriptor: Descriptor;
     type: TypeDescriptor;
     config: ConfigParams;

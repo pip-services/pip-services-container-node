@@ -13,7 +13,7 @@ suite('ContainerInfo', ()=> {
     test('Name', () => {
         assert.equal(containerInfo.name, "unknown");
 
-        var update: string = "new name";
+        let update: string = "new name";
         containerInfo.name = update;
         assert.equal(containerInfo.name, update);
     });    
@@ -21,7 +21,7 @@ suite('ContainerInfo', ()=> {
     test('Description', () => {
         assert.isNull(containerInfo.description);
 
-        var update: string = "new description";
+        let update: string = "new description";
         containerInfo.name = update;
         assert.equal(containerInfo.name, update);
     });    
@@ -29,7 +29,7 @@ suite('ContainerInfo', ()=> {
     test('ContainerId', () => {
         assert.isNotNull(containerInfo.containerId);
 
-        var update: string = "new container id";
+        let update: string = "new container id";
         containerInfo.containerId = update;
         assert.equal(containerInfo.containerId, update);
     });    
@@ -46,15 +46,15 @@ suite('ContainerInfo', ()=> {
         assert.equal(containerInfo.startTime.getDate(), 8);
     });    
 
-    test('FromConfigs', () => {
-        var config: ConfigParams = ConfigParams.fromTuples(
+    test('FromConfig', () => {
+        let config: ConfigParams = ConfigParams.fromTuples(
                 "info.name", "new name",
                 "info.description", "new description",
                 "properties.access_key", "key",
                 "properties.store_key", "store key"
                 );
 
-        var containerInfo = ContainerInfo.fromConfig(config);
+        let containerInfo: ContainerInfo = ContainerInfo.fromConfig(config);
         assert.equal(containerInfo.name, "new name");
         assert.equal(containerInfo.description, "new description");
     });    

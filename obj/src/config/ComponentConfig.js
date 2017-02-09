@@ -3,9 +3,15 @@ const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 class ComponentConfig {
     constructor(descriptor, type, config) {
-        this.descriptor = descriptor;
-        this.type = type;
-        this.config = config;
+        this._descriptor = null;
+        this._type = null;
+        this._config = null;
+        if (descriptor)
+            this.descriptor = descriptor;
+        if (type)
+            this.type = type;
+        if (config)
+            this.config = config;
     }
     get descriptor() {
         return this._descriptor;
