@@ -35,7 +35,7 @@ export class ComponentConfig {
         this._config = value; 
     }
 
-    private fromConfig(config: ConfigParams): ComponentConfig {
+    public static fromConfig(config: ConfigParams): ComponentConfig {
         var descriptor = Descriptor.fromString(config.getAsNullableString("descriptor"));
         var type = TypeDescriptor.fromString(config.getAsNullableString("type"));
 

@@ -25,7 +25,7 @@ class ComponentConfig {
     set config(value) {
         this._config = value;
     }
-    fromConfig(config) {
+    static fromConfig(config) {
         var descriptor = pip_services_commons_node_1.Descriptor.fromString(config.getAsNullableString("descriptor"));
         var type = pip_services_commons_node_1.TypeDescriptor.fromString(config.getAsNullableString("type"));
         if (descriptor == null && type == null)

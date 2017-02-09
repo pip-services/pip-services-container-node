@@ -8,5 +8,5 @@ export declare class ComponentConfig {
     descriptor: Descriptor;
     type: TypeDescriptor;
     config: ConfigParams;
-    private fromConfig(config);
+    static fromConfig(config: ConfigParams): ComponentConfig;
 }
