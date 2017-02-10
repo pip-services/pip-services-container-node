@@ -4,7 +4,7 @@ const pip_services_commons_node_2 = require("pip-services-commons-node");
 const pip_services_commons_node_3 = require("pip-services-commons-node");
 class ContainerReferences extends pip_services_commons_node_1.ManagedReferences {
     createStatically(locator) {
-        var component = super._builder.create(locator);
+        var component = this._builder.create(locator);
         if (component == null)
             throw new pip_services_commons_node_3.ReferenceException(null, locator);
         return component;

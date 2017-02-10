@@ -5,7 +5,10 @@ import { ComponentConfig } from './ComponentConfig';
 export class ContainerConfig extends Array<ComponentConfig> {
 
     public constructor(components?: ComponentConfig[]) {
-        super(...components);
+        super();
+
+        if (components != null)
+            super.push(...components);
     }
 
     public static fromObject(value: any): ContainerConfig {

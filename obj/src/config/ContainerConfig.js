@@ -3,7 +3,9 @@ const pip_services_commons_node_1 = require("pip-services-commons-node");
 const ComponentConfig_1 = require("./ComponentConfig");
 class ContainerConfig extends Array {
     constructor(components) {
-        super(...components);
+        super();
+        if (components != null)
+            super.push(...components);
     }
     static fromObject(value) {
         var config = pip_services_commons_node_1.ConfigParams.fromValue(value);

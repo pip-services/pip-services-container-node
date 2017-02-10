@@ -1,5 +1,13 @@
-import { IFactory, IDescriptable } from 'pip-services-commons-node';
-import { CompositeFactory, DefaultLoggerFactory, DefaultCountersFactory, DefaultCacheFactory } from 'pip-services-commons-node';
+import { 
+    IFactory,
+    IDescriptable
+} from 'pip-services-commons-node';
+import {
+    CompositeFactory,
+    DefaultLoggerFactory,
+    DefaultCountersFactory,
+    DefaultCacheFactory
+} from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 import { IdGenerator } from 'pip-services-commons-node';
 import { StringValueMap } from 'pip-services-commons-node';

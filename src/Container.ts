@@ -20,12 +20,12 @@ import { ContainerReferences } from './refer/ContainerReferences';
 
 export class Container {
 
-    private _logger: ILogger = new NullLogger()
+    protected _logger: ILogger = new NullLogger()
     private _info: ContainerInfo = new ContainerInfo()
     private _config: ContainerConfig;
     private _references: ContainerReferences = new ContainerReferences();
 
-    public constructor(config: ContainerConfig) {
+    public constructor(config?: ContainerConfig) {
         this.config = config;
     }
 

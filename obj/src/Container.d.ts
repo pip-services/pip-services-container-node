@@ -1,13 +1,13 @@
-import { IReferences } from 'pip-services-commons-node';
+import { IReferences, ILogger } from 'pip-services-commons-node';
 import { ContainerConfig } from './config/ContainerConfig';
 import { ContainerInfo } from './info/ContainerInfo';
 import { ContainerReferences } from './refer/ContainerReferences';
 export declare class Container {
-    private _logger;
+    protected _logger: ILogger;
     private _info;
     private _config;
     private _references;
-    constructor(config: ContainerConfig);
+    constructor(config?: ContainerConfig);
     info: ContainerInfo;
     config: ContainerConfig;
     references: ContainerReferences;

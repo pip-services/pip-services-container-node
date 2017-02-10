@@ -9,7 +9,7 @@ import { ContainerConfig } from '../config/ContainerConfig';
 export class ContainerReferences extends ManagedReferences {
 
     private createStatically(locator: any): any {
-        var component = super._builder.create(locator);
+        var component = this._builder.create(locator);
         if (component == null)
             throw new ReferenceException(null, locator);
         return component;
