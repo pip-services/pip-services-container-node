@@ -2,11 +2,9 @@ var http = require('http');
 
 import { DummyProcess } from './DummyProcess';
 
-console.log('Hi1!');
+console.log('Hi!');
 
 new DummyProcess().runWithArguments([]);
-
-console.log('Hi2!');
 
 http.createServer(function(req, res) {
     console.log('Request arrived!');
