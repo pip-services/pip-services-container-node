@@ -1,33 +1,26 @@
-import {
-    IDescriptable,
-    IReferenceable,
-    IReferences,
-    IReconfigurable,
-    IOpenable,
-    INotifiable,
-    CompositeLogger,
-    FixedRateTimer,
-    Descriptor,
-    Parameters,
-    ConfigParams
-} from 'pip-services-commons-node';
+import { IDescriptable } from 'pip-services-commons-node';
+import { IReferenceable } from 'pip-services-commons-node';
+import { IReferences } from 'pip-services-commons-node';
+import { IReconfigurable } from 'pip-services-commons-node';
+import { IOpenable } from 'pip-services-commons-node';
+import { INotifiable } from 'pip-services-commons-node';
+import { CompositeLogger } from 'pip-services-commons-node';
+import { FixedRateTimer } from 'pip-services-commons-node';
+import { Descriptor } from 'pip-services-commons-node';
+import { Parameters } from 'pip-services-commons-node';
+import { ConfigParams } from 'pip-services-commons-node';
 
 import { ContainerConfig } from '../src/config/ContainerConfig';
 
 export class DummyController implements IDescriptable, IReferenceable, IReconfigurable, IOpenable, INotifiable {
-
     public static descriptor: Descriptor = new Descriptor("pip-services-dummies", "controller", "default", "default", "1.0");
 
-    private readonly _timer: FixedRateTimer;
+    private readonly _timer = new FixedRateTimer(this, 1000, 1000);
     private readonly _logger: CompositeLogger = new CompositeLogger();
     private _message: string = "Hello World!";
     private _counter: number = 0;
 
-    public constructor() {
-        this._timer = new FixedRateTimer(
-                this, 1000, 1000
-            );
-    }
+    public constructor() {}
 
 	public get message(): string { 
         return this._message; 
@@ -59,12 +52,11 @@ export class DummyController implements IDescriptable, IReferenceable, IReconfig
         return this._timer.isStarted();
     }
 
-    public open(correlationId: string, callback: (err?: any) => void): void {
+    public open(correlationId: string, callback?: (err: any) => void): void {
         try {
             this._timer.start();
             this._logger.trace(correlationId, "Dummy controller opened");
-            if (callback)
-                callback();
+            if (callback) callback(null);
         } catch (ex) {
             this._logger.error(correlationId, ex, "Failed to open Dummy container");
             if (callback) callback(ex);
@@ -72,12 +64,11 @@ export class DummyController implements IDescriptable, IReferenceable, IReconfig
         }
     }
 		
-    public close(correlationId: string, callback?: (err?: any) => void): void {
+    public close(correlationId: string, callback?: (err: any) => void): void {
         try {
             this._timer.stop();
             this._logger.trace(correlationId, "Dummy controller closed");
-            if (callback)
-                callback();
+            if (callback) callback(null);
         } catch (ex) {
             this._logger.error(correlationId, ex, "Failed to close Dummy container");
             if (callback) callback(ex);
@@ -85,9 +76,8 @@ export class DummyController implements IDescriptable, IReferenceable, IReconfig
         }
     }
 
-    public notify(correlationId: string, args: Parameters, callback: (err?) => void): void {
+    public notify(correlationId: string, args: Parameters): void {
         this._logger.info(correlationId, "{0} - {1}", this.counter++, this.message);
-        callback();
     }
 
 }

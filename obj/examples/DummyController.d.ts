@@ -1,4 +1,12 @@
-import { IDescriptable, IReferenceable, IReferences, IReconfigurable, IOpenable, INotifiable, Descriptor, Parameters, ConfigParams } from 'pip-services-commons-node';
+import { IDescriptable } from 'pip-services-commons-node';
+import { IReferenceable } from 'pip-services-commons-node';
+import { IReferences } from 'pip-services-commons-node';
+import { IReconfigurable } from 'pip-services-commons-node';
+import { IOpenable } from 'pip-services-commons-node';
+import { INotifiable } from 'pip-services-commons-node';
+import { Descriptor } from 'pip-services-commons-node';
+import { Parameters } from 'pip-services-commons-node';
+import { ConfigParams } from 'pip-services-commons-node';
 export declare class DummyController implements IDescriptable, IReferenceable, IReconfigurable, IOpenable, INotifiable {
     static descriptor: Descriptor;
     private readonly _timer;
@@ -12,7 +20,7 @@ export declare class DummyController implements IDescriptable, IReferenceable, I
     configure(config: ConfigParams): void;
     setReferences(references: IReferences): void;
     isOpened(): boolean;
-    open(correlationId: string, callback: (err?: any) => void): void;
-    close(correlationId: string, callback?: (err?: any) => void): void;
-    notify(correlationId: string, args: Parameters, callback: (err?) => void): void;
+    open(correlationId: string, callback?: (err: any) => void): void;
+    close(correlationId: string, callback?: (err: any) => void): void;
+    notify(correlationId: string, args: Parameters): void;
 }

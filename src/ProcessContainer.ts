@@ -1,10 +1,19 @@
+import { ConsoleLogger } from 'pip-services-commons-node';
+
 import { ContainerConfig } from './config/ContainerConfig';
 import { Container } from './Container';
 
 export class ProcessContainer extends Container {
 
+    public constructor() {
+        super();
+
+        this._logger = new ConsoleLogger();
+    }
+
     public readConfigFromArgumentsOrFile(correlationId: string, args: string[], defaultPath: string): void {
-    	let path: string = args.length > 0 ? args[0] : defaultPath;
+        // node <js file> <config>
+    	let path: string = args.length > 2 ? args[2] : defaultPath;
     	this.readConfigFromFile(correlationId, path);
     }
     
@@ -34,15 +43,16 @@ export class ProcessContainer extends Container {
     }
 
     public runWithConfig(correlationId: string, config: ContainerConfig): void {
-    	this.config = config;
+    	this._config = config;
     	this.run(correlationId);
     }
 
-    public runWithConfigFile(correlationId: string, args: string[], path: string): void {
+    public runWithArgumentsOrConfigFile(correlationId: string, args: string[], defaultPath: string): void {
         if (args == null || args.length == 0)
-    	    this.readConfigFromFile(correlationId, path);
+    	    this.readConfigFromFile(correlationId, defaultPath);
         else
-        	this.readConfigFromArgumentsOrFile(correlationId, args, path);
+        	this.readConfigFromArgumentsOrFile(correlationId, args, defaultPath);
+
     	this.run(correlationId);
     }
 

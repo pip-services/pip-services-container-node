@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 const pip_services_commons_node_3 = require("pip-services-commons-node");
@@ -19,6 +20,7 @@ class ContainerReferences extends pip_services_commons_node_1.ManagedReferences 
                 if (componentConfig.type != null) {
                     locator = componentConfig.type;
                     component = pip_services_commons_node_2.TypeReflector.createInstanceByDescriptor(componentConfig.type);
+                    // Or create component statically
                 }
                 else if (componentConfig.descriptor != null) {
                     locator = componentConfig.descriptor;

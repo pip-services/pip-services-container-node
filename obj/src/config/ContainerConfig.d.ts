@@ -2,6 +2,6 @@ import { ConfigParams } from 'pip-services-commons-node';
 import { ComponentConfig } from './ComponentConfig';
 export declare class ContainerConfig extends Array<ComponentConfig> {
     constructor(components?: ComponentConfig[]);
-    static fromObject(value: any): ContainerConfig;
+    static fromValue(value: any): ContainerConfig;
     static fromConfig(config: ConfigParams): ContainerConfig;
 }

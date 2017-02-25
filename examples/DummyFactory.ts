@@ -1,51 +1,37 @@
-import { 
-    IFactory,
-    IDescriptable
-} from 'pip-services-commons-node';
-import {
-    CompositeFactory,
-    DefaultLoggerFactory,
-    DefaultCountersFactory,
-    DefaultCacheFactory
-} from 'pip-services-commons-node';
+import { IFactory } from 'pip-services-commons-node';
+import { IDescriptable } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 
 import { DummyController } from './DummyController';
 
 export class DummyFactory implements IFactory, IDescriptable {
+	public static Descriptor = new Descriptor("pip-services-dummies", "factory", "default", "default", "1.0");
+	public static ControllerDescriptor = new Descriptor("pip-services-dummies", "controller", "default", "*", "1.0");
 
-	public static readonly descriptor: Descriptor = new Descriptor("pip-services-dummies", "factory", "default", "default", "1.0");
-
-	public getDescriptor(): Descriptor { 
-        return DummyFactory.descriptor; 
-    }
+	public getDescriptor(): Descriptor {
+		return DummyFactory.Descriptor;
+	}
 	
-    public canCreate(locator: any): boolean {
-        if (locator == null)
-            throw new Error("Locator cannot be null");
+	public canCreate(locator: any): boolean {
+		if (locator instanceof Descriptor) {			
+			let descriptor = <Descriptor>locator;
+			
+			if (descriptor.match(DummyFactory.ControllerDescriptor))
+				return true;
+		}
+		
+		return false;
+	}
 
-        let descriptor: Descriptor = <Descriptor>locator;
-
-        if (descriptor == null) return false;
-
-        if (descriptor.match(DummyController.descriptor))
-            return true;
-
-        return false;
-    }
-
-    public create(locator: any): any {
-        if (locator == null)
-            throw new Error("Locator cannot be null");
-
-        let descriptor: Descriptor = <Descriptor>locator;
-
-        if (descriptor == null) return null;
-
-        if (descriptor.match(DummyController.descriptor))
-            return new DummyController();
-
-        return null;
-    }
-
+	public create(locator: any): any {
+		if (locator instanceof Descriptor) {
+			let descriptor = <Descriptor>locator;
+			
+			if (descriptor.match(DummyFactory.ControllerDescriptor))
+				return new DummyController();
+		}
+		
+		return null;
+	}
 }
+

@@ -1,18 +1,22 @@
-import { IReferences, ILogger } from 'pip-services-commons-node';
+import { IReferences } from 'pip-services-commons-node';
+import { ILogger } from 'pip-services-commons-node';
 import { ContainerConfig } from './config/ContainerConfig';
 import { ContainerInfo } from './info/ContainerInfo';
 import { ContainerReferences } from './refer/ContainerReferences';
 export declare class Container {
     protected _logger: ILogger;
-    private _info;
-    private _config;
-    private _references;
+    protected _info: ContainerInfo;
+    protected _config: ContainerConfig;
+    protected _references: ContainerReferences;
     constructor(config?: ContainerConfig);
-    info: ContainerInfo;
-    config: ContainerConfig;
-    references: ContainerReferences;
+    getInfo(): ContainerInfo;
+    setInfo(value: ContainerInfo): void;
+    getConfig(): ContainerConfig;
+    setConfig(value: ContainerConfig): void;
+    getReferences(): ContainerReferences;
+    setReferences(value: ContainerReferences): void;
     readConfigFromFile(correlationId: string, path: string): void;
     protected initReferences(references: IReferences): void;
-    start(correlationId: string, callback: (err?: any) => void): void;
-    stop(correlationId: string, callback?: (err?: any) => void): void;
+    start(correlationId: string, callback?: (err: any) => void): void;
+    stop(correlationId: string, callback?: (err: any) => void): void;
 }

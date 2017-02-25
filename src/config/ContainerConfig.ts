@@ -11,18 +11,18 @@ export class ContainerConfig extends Array<ComponentConfig> {
             super.push(...components);
     }
 
-    public static fromObject(value: any): ContainerConfig {
-        var config = ConfigParams.fromValue(value);
+    public static fromValue(value: any): ContainerConfig {
+        let config = ConfigParams.fromValue(value);
         return ContainerConfig.fromConfig(config);
     }
 
     public static fromConfig(config: ConfigParams): ContainerConfig {
-        var result = new ContainerConfig();
+        let result = new ContainerConfig();
         if (config == null) return result;
 
-        var names = config.getSectionNames();
-        for(var i = 0; i < names.length; i++) {
-            var componentConfig = config.getSection(names[i]);
+        let names = config.getSectionNames();
+        for (var i = 0; i < names.length; i++) {
+            let componentConfig = config.getSection(names[i]);
             result.push(ComponentConfig.fromConfig(componentConfig));
         }
 

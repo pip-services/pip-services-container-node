@@ -1,11 +1,14 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
+const pip_services_commons_node_2 = require("pip-services-commons-node");
+const pip_services_commons_node_3 = require("pip-services-commons-node");
 class DummyController {
     constructor() {
+        this._timer = new pip_services_commons_node_2.FixedRateTimer(this, 1000, 1000);
         this._logger = new pip_services_commons_node_1.CompositeLogger();
         this._message = "Hello World!";
         this._counter = 0;
-        this._timer = new pip_services_commons_node_1.FixedRateTimer(this, 1000, 1000);
     }
     get message() {
         return this._message;
@@ -36,7 +39,7 @@ class DummyController {
             this._timer.start();
             this._logger.trace(correlationId, "Dummy controller opened");
             if (callback)
-                callback();
+                callback(null);
         }
         catch (ex) {
             this._logger.error(correlationId, ex, "Failed to open Dummy container");
@@ -51,7 +54,7 @@ class DummyController {
             this._timer.stop();
             this._logger.trace(correlationId, "Dummy controller closed");
             if (callback)
-                callback();
+                callback(null);
         }
         catch (ex) {
             this._logger.error(correlationId, ex, "Failed to close Dummy container");
@@ -61,11 +64,10 @@ class DummyController {
                 throw ex;
         }
     }
-    notify(correlationId, args, callback) {
+    notify(correlationId, args) {
         this._logger.info(correlationId, "{0} - {1}", this.counter++, this.message);
-        callback();
     }
 }
-DummyController.descriptor = new pip_services_commons_node_1.Descriptor("pip-services-dummies", "controller", "default", "default", "1.0");
+DummyController.descriptor = new pip_services_commons_node_3.Descriptor("pip-services-dummies", "controller", "default", "default", "1.0");
 exports.DummyController = DummyController;
 //# sourceMappingURL=DummyController.js.map

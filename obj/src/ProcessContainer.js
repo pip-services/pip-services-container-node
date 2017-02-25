@@ -1,8 +1,15 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const pip_services_commons_node_1 = require("pip-services-commons-node");
 const Container_1 = require("./Container");
 class ProcessContainer extends Container_1.Container {
+    constructor() {
+        super();
+        this._logger = new pip_services_commons_node_1.ConsoleLogger();
+    }
     readConfigFromArgumentsOrFile(correlationId, args, defaultPath) {
-        let path = args.length > 0 ? args[0] : defaultPath;
+        // node <js file> <config>
+        let path = args.length > 2 ? args[2] : defaultPath;
         this.readConfigFromFile(correlationId, path);
     }
     captureErrors(correlationId) {
@@ -27,14 +34,14 @@ class ProcessContainer extends Container_1.Container {
         });
     }
     runWithConfig(correlationId, config) {
-        this.config = config;
+        this._config = config;
         this.run(correlationId);
     }
-    runWithConfigFile(correlationId, args, path) {
+    runWithArgumentsOrConfigFile(correlationId, args, defaultPath) {
         if (args == null || args.length == 0)
-            this.readConfigFromFile(correlationId, path);
+            this.readConfigFromFile(correlationId, defaultPath);
         else
-            this.readConfigFromArgumentsOrFile(correlationId, args, path);
+            this.readConfigFromArgumentsOrFile(correlationId, args, defaultPath);
         this.run(correlationId);
     }
 }

@@ -13,7 +13,7 @@ export class DummyProcess extends ProcessContainer {
     }
 
     public runWithArguments(args: string[]): void {
-        return this.runWithConfigFile("dummy", args, "./dummy.yaml");
+        return this.runWithArgumentsOrConfigFile("dummy", args, "./config/dummy.yaml");
     }
 
 }

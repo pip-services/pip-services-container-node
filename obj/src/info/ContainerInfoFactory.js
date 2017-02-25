@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const ContainerInfo_1 = require("./ContainerInfo");
 class ContainerInfoFactory {

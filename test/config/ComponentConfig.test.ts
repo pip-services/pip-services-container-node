@@ -14,7 +14,7 @@ suite('ComponentConfig', ()=> {
     });
 
     test('Type', () => {
-        assert.isNull(componentConfig.type);
+        assert.isUndefined(componentConfig.type);
 
         let type: TypeDescriptor = new TypeDescriptor("new name", null);
         componentConfig.type = type;
@@ -22,7 +22,7 @@ suite('ComponentConfig', ()=> {
     });    
 
     test('Descriptor', () => {
-        assert.isNull(componentConfig.descriptor);
+        assert.isUndefined(componentConfig.descriptor);
 
         let descriptor: Descriptor = new Descriptor("group", "type", "id", "default", "version");
         componentConfig.descriptor = descriptor;
@@ -30,7 +30,7 @@ suite('ComponentConfig', ()=> {
     });    
 
     test('ConfigParams', () => {
-        assert.isNull(componentConfig.config);
+        assert.isUndefined(componentConfig.config);
 
         let config: ConfigParams = ConfigParams.fromTuples(
             "config.key", "key",

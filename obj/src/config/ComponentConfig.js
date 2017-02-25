@@ -1,35 +1,15 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 class ComponentConfig {
     constructor(descriptor, type, config) {
-        this._descriptor = null;
-        this._type = null;
-        this._config = null;
-        if (descriptor)
-            this.descriptor = descriptor;
-        if (type)
-            this.type = type;
-        if (config)
-            this.config = config;
-    }
-    get descriptor() {
-        return this._descriptor;
-    }
-    set descriptor(value) {
-        this._descriptor = value;
-    }
-    get type() {
-        return this._type;
-    }
-    set type(value) {
-        this._type = value;
-    }
-    get config() {
-        return this._config;
-    }
-    set config(value) {
-        this._config = value;
+        this.descriptor = null;
+        this.type = null;
+        this.config = null;
+        this.descriptor = descriptor;
+        this.type = type;
+        this.config = config;
     }
     static fromConfig(config) {
         var descriptor = pip_services_commons_node_1.Descriptor.fromString(config.getAsNullableString("descriptor"));

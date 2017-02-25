@@ -8,7 +8,7 @@
 			"type": "node2",
 			"request": "launch",
 			"name": "Launch Dummy",
-			"program": "${workspaceRoot}/obj/examples/DummyApp.js",
+			"program": "${workspaceRoot}/obj/examples/app.js",
 			"cwd": "${workspaceRoot}"
 		},
 		{

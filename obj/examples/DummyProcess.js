@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const ProcessContainer_1 = require("../src/ProcessContainer");
 const DummyFactory_1 = require("./DummyFactory");
 class DummyProcess extends ProcessContainer_1.ProcessContainer {
@@ -8,7 +9,7 @@ class DummyProcess extends ProcessContainer_1.ProcessContainer {
         references.put(new DummyFactory_1.DummyFactory());
     }
     runWithArguments(args) {
-        return this.runWithConfigFile("dummy", args, "./dummy.yaml");
+        return this.runWithArgumentsOrConfigFile("dummy", args, "./config/dummy.yaml");
     }
 }
 exports.DummyProcess = DummyProcess;

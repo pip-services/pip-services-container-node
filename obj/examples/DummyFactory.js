@@ -1,31 +1,29 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const DummyController_1 = require("./DummyController");
 class DummyFactory {
     getDescriptor() {
-        return DummyFactory.descriptor;
+        return DummyFactory.Descriptor;
     }
     canCreate(locator) {
-        if (locator == null)
-            throw new Error("Locator cannot be null");
-        let descriptor = locator;
-        if (descriptor == null)
-            return false;
-        if (descriptor.match(DummyController_1.DummyController.descriptor))
-            return true;
+        if (locator instanceof pip_services_commons_node_1.Descriptor) {
+            let descriptor = locator;
+            if (descriptor.match(DummyFactory.ControllerDescriptor))
+                return true;
+        }
         return false;
     }
     create(locator) {
-        if (locator == null)
-            throw new Error("Locator cannot be null");
-        let descriptor = locator;
-        if (descriptor == null)
-            return null;
-        if (descriptor.match(DummyController_1.DummyController.descriptor))
-            return new DummyController_1.DummyController();
+        if (locator instanceof pip_services_commons_node_1.Descriptor) {
+            let descriptor = locator;
+            if (descriptor.match(DummyFactory.ControllerDescriptor))
+                return new DummyController_1.DummyController();
+        }
         return null;
     }
 }
-DummyFactory.descriptor = new pip_services_commons_node_1.Descriptor("pip-services-dummies", "factory", "default", "default", "1.0");
+DummyFactory.Descriptor = new pip_services_commons_node_1.Descriptor("pip-services-dummies", "factory", "default", "default", "1.0");
+DummyFactory.ControllerDescriptor = new pip_services_commons_node_1.Descriptor("pip-services-dummies", "controller", "default", "*", "1.0");
 exports.DummyFactory = DummyFactory;
 //# sourceMappingURL=DummyFactory.js.map

@@ -9,4 +9,6 @@ $TestTimeout = 10000
 $TestStyle = 'tdd'
 
 $Deploy = 'none'
-$Run = 'none'
+
+$Run = 'process'
+$RunCommand = 'node ./obj/examples/app.js ./config/dummy.yaml'
