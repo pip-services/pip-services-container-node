@@ -9,7 +9,7 @@ export class DummyProcess extends ProcessContainer {
         super.initReferences(references);
 
         // Factory to statically resolve dummy components
-        references.put(new DummyFactory());
+        references.put(DummyFactory.Descriptor, new DummyFactory());
     }
 
     public runWithArguments(args: string[]): void {

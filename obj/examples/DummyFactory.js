@@ -3,9 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const DummyController_1 = require("./DummyController");
 class DummyFactory {
-    getDescriptor() {
-        return DummyFactory.Descriptor;
-    }
     canCreate(locator) {
         if (locator instanceof pip_services_commons_node_1.Descriptor) {
             let descriptor = locator;

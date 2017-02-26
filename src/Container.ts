@@ -52,7 +52,7 @@ export class Container {
     }
 
     protected initReferences(references: IReferences): void {
-        references.put(new DefaultContainerFactory());
+        references.put(DefaultContainerFactory.Descriptor, new DefaultContainerFactory());
     }
 
     public start(correlationId: string, callback?: (err: any) => void): void {

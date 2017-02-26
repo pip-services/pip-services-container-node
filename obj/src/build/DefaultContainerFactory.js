@@ -14,10 +14,7 @@ class DefaultContainerFactory extends pip_services_commons_node_1.CompositeFacto
         this.add(new pip_services_commons_node_3.DefaultCountersFactory());
         this.add(new pip_services_commons_node_4.DefaultCacheFactory());
     }
-    getDescriptor() {
-        return DefaultContainerFactory.descriptor;
-    }
 }
-DefaultContainerFactory.descriptor = new pip_services_commons_node_5.Descriptor("pip-services-container", "factory", "container", "default", "1.0");
+DefaultContainerFactory.Descriptor = new pip_services_commons_node_5.Descriptor("pip-services-container", "factory", "container", "default", "1.0");
 exports.DefaultContainerFactory = DefaultContainerFactory;
 //# sourceMappingURL=DefaultContainerFactory.js.map

@@ -1,4 +1,3 @@
-import { IDescriptable } from 'pip-services-commons-node';
 import { IReferenceable } from 'pip-services-commons-node';
 import { IReferences } from 'pip-services-commons-node';
 import { IReconfigurable } from 'pip-services-commons-node';
@@ -12,9 +11,7 @@ import { ConfigParams } from 'pip-services-commons-node';
 
 import { ContainerConfig } from '../src/config/ContainerConfig';
 
-export class DummyController implements IDescriptable, IReferenceable, IReconfigurable, IOpenable, INotifiable {
-    public static descriptor: Descriptor = new Descriptor("pip-services-dummies", "controller", "default", "default", "1.0");
-
+export class DummyController implements IReferenceable, IReconfigurable, IOpenable, INotifiable {
     private readonly _timer = new FixedRateTimer(this, 1000, 1000);
     private readonly _logger: CompositeLogger = new CompositeLogger();
     private _message: string = "Hello World!";
@@ -34,10 +31,6 @@ export class DummyController implements IDescriptable, IReferenceable, IReconfig
     }
 	public set counter(value: number) { 
         this._counter = value; 
-    }
-
-    public getDescriptor(): Descriptor {
-        return DummyController.descriptor;
     }
 
     public configure(config: ConfigParams): void {

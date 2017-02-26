@@ -1,10 +1,12 @@
-import { ManagedReferences } from 'pip-services-commons-node';
 import { TypeReflector } from 'pip-services-commons-node';
-import { ReferenceException, CreateException } from 'pip-services-commons-node';
-import { IConfigurable, IReferenceable } from 'pip-services-commons-node';
+import { ReferenceException } from 'pip-services-commons-node';
+import { CreateException } from 'pip-services-commons-node';
+import { IConfigurable } from 'pip-services-commons-node';
+import { IReferenceable } from 'pip-services-commons-node';
 
 import { ComponentConfig } from '../config/ComponentConfig';
 import { ContainerConfig } from '../config/ContainerConfig';
+import { ManagedReferences } from './ManagedReferences';
 
 export class ContainerReferences extends ManagedReferences {
 
@@ -39,10 +41,7 @@ export class ContainerReferences extends ManagedReferences {
                 }
 
                 // Add component to the list
-                if (component.locate || component.getDescriptor)
-                    this._references.put(component);
-                else
-                    this._references.put(component, locator);
+                this._references.put(locator, component);
 
                 if (component.configure) {
                     // Configure component

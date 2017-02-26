@@ -1,4 +1,4 @@
-import { IFactory, IDescriptable } from 'pip-services-commons-node';
+import { IFactory } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 import { IdGenerator } from 'pip-services-commons-node';
 import { StringValueMap } from 'pip-services-commons-node';
@@ -6,23 +6,21 @@ import { ConfigParams } from 'pip-services-commons-node';
 
 import { ContainerInfo } from './ContainerInfo';
 
-export class ContainerInfoFactory implements IFactory, IDescriptable {
-	public static readonly descriptor: Descriptor = new Descriptor("pip-services-container", "factory", "container-info", "default", "1.0");
-	
-	public getDescriptor(): Descriptor { 
-        return ContainerInfoFactory.descriptor; 
-    }
+export class ContainerInfoFactory implements IFactory {
+	public static readonly Descriptor: Descriptor = new Descriptor("pip-services-container", "factory", "container-info", "default", "1.0");
+	public static readonly ContainerInfoDescriptor: Descriptor = new Descriptor("pip-services-container", "container-info", "default", "*", "1.0");
 	
     public canCreate(locator: any): boolean {
         if (locator == null)
             throw new Error("Locator cannot be null");
 
         let descriptor: Descriptor = <Descriptor>locator;
+        if (descriptor != null) {
 
-        if (descriptor == null) return false;
+            if (descriptor.match(ContainerInfoFactory.ContainerInfoDescriptor))
+                return true;
 
-        if (descriptor.match(ContainerInfo.descriptor))
-            return true;
+        }
 
         return false;
     }
@@ -32,11 +30,11 @@ export class ContainerInfoFactory implements IFactory, IDescriptable {
             throw new Error("Locator cannot be null");
 
         let descriptor: Descriptor = <Descriptor>locator;
+        if (descriptor != null) {
 
-        if (descriptor == null) return null;
-
-        if (descriptor.match(ContainerInfo.descriptor))
-            return new ContainerInfo();
+            if (descriptor.match(ContainerInfoFactory.ContainerInfoDescriptor))
+                return new ContainerInfo();
+        }
 
         return null;
     }

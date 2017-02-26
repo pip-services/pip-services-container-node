@@ -39,7 +39,7 @@ class Container {
         this._config = ContainerConfigReader_1.ContainerConfigReader.readFromFile(correlationId, path);
     }
     initReferences(references) {
-        references.put(new DefaultContainerFactory_1.DefaultContainerFactory());
+        references.put(DefaultContainerFactory_1.DefaultContainerFactory.Descriptor, new DefaultContainerFactory_1.DefaultContainerFactory());
     }
     start(correlationId, callback) {
         if (this._references == null) {
