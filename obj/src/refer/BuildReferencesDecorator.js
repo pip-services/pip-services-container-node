@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 let _ = require('lodash');
 const pip_services_commons_node_1 = require("pip-services-commons-node");
+const pip_services_commons_node_2 = require("pip-services-commons-node");
 const ReferencesDecorator_1 = require("./ReferencesDecorator");
 class BuildReferencesDecorator extends ReferencesDecorator_1.ReferencesDecorator {
     constructor(baseReferences, parentReferences) {
@@ -19,9 +20,7 @@ class BuildReferencesDecorator extends ReferencesDecorator_1.ReferencesDecorator
         }
         return null;
     }
-    create(locator) {
-        // Find factory
-        let factory = this.findFactory(locator);
+    create(locator, factory) {
         if (factory == null)
             return null;
         try {
@@ -32,14 +31,30 @@ class BuildReferencesDecorator extends ReferencesDecorator_1.ReferencesDecorator
             return null;
         }
     }
+    clarifyLocator(locator, factory) {
+        if (factory == null)
+            return locator;
+        if (!(locator instanceof pip_services_commons_node_2.Descriptor))
+            return locator;
+        let anotherLocator = factory.canCreate(locator);
+        if (anotherLocator == null)
+            return locator;
+        if (!(anotherLocator instanceof pip_services_commons_node_2.Descriptor))
+            return locator;
+        let descriptor = locator;
+        let anotherDescriptor = anotherLocator;
+        return new pip_services_commons_node_2.Descriptor(descriptor.getGroup() != null ? descriptor.getGroup() : anotherDescriptor.getGroup(), descriptor.getType() != null ? descriptor.getType() : anotherDescriptor.getType(), descriptor.getKind() != null ? descriptor.getKind() : anotherDescriptor.getKind(), descriptor.getName() != null ? descriptor.getName() : anotherDescriptor.getName(), descriptor.getVersion() != null ? descriptor.getVersion() : anotherDescriptor.getVersion());
+    }
     find(query, required) {
         let components = super.find(query, false);
         let locator = query.locator;
         // Try to create component
         if (components.length == 0 && this.buildEnabled) {
-            let component = this.create(locator);
+            let factory = this.findFactory(locator);
+            let component = this.create(locator, factory);
             if (component != null) {
                 try {
+                    locator = this.clarifyLocator(locator, factory);
                     this.parentReferences.put(locator, component);
                     components.push(component);
                 }

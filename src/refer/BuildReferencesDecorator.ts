@@ -4,6 +4,7 @@ import { IReferences } from 'pip-services-commons-node';
 import { ReferenceQuery } from 'pip-services-commons-node';
 import { ReferenceException } from 'pip-services-commons-node';
 import { IFactory } from 'pip-services-commons-node';
+import { Descriptor } from 'pip-services-commons-node';
 
 import { ReferencesDecorator } from './ReferencesDecorator';
 
@@ -14,7 +15,7 @@ export class BuildReferencesDecorator extends ReferencesDecorator {
 	
 	public buildEnabled: boolean = true;
 
-    private  findFactory(locator: any): IFactory {
+    public findFactory(locator: any): IFactory {
         let components = this.getAll();
         for (let index = 0; index < components.length; index++) {
             let component = components[index];
@@ -27,9 +28,7 @@ export class BuildReferencesDecorator extends ReferencesDecorator {
         return null;
     }
 
-    public create(locator: any): any {
-        // Find factory
-        let factory = this.findFactory(locator);
+    public create(locator: any, factory: IFactory): any {
         if (factory == null) return null;
 
         try {
@@ -40,15 +39,37 @@ export class BuildReferencesDecorator extends ReferencesDecorator {
         }
     }
 
+    public clarifyLocator(locator: any, factory: IFactory): any {
+        if (factory == null) return locator;
+        if (!(locator instanceof Descriptor)) return locator;
+        
+        let anotherLocator = factory.canCreate(locator);
+    	if (anotherLocator == null) return locator;
+    	if (!(anotherLocator instanceof Descriptor)) return locator;
+    	
+    	let descriptor: Descriptor = locator;
+    	let anotherDescriptor: Descriptor = anotherLocator;
+    	
+    	return new Descriptor(
+    		descriptor.getGroup() != null ? descriptor.getGroup() : anotherDescriptor.getGroup(),
+    		descriptor.getType() != null ? descriptor.getType() : anotherDescriptor.getType(),
+    		descriptor.getKind() != null ? descriptor.getKind() : anotherDescriptor.getKind(),
+    		descriptor.getName() != null ? descriptor.getName() : anotherDescriptor.getName(),
+    		descriptor.getVersion() != null ? descriptor.getVersion() : anotherDescriptor.getVersion()
+		);
+    }
+
     public find<T>(query: ReferenceQuery, required: boolean): T[] {
         let components = super.find<T>(query, false);
         let locator = query.locator;
 
         // Try to create component
         if (components.length == 0 && this.buildEnabled) {
-            let component = this.create(locator);
+            let factory = this.findFactory(locator);
+            let component = this.create(locator, factory);
             if (component != null) {
                 try {
+                	locator = this.clarifyLocator(locator, factory);
                     this.parentReferences.put(locator, component);
                     components.push(component);
                 } catch (ex) {

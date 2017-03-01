@@ -5,12 +5,6 @@ const pip_services_commons_node_2 = require("pip-services-commons-node");
 const pip_services_commons_node_3 = require("pip-services-commons-node");
 const ManagedReferences_1 = require("./ManagedReferences");
 class ContainerReferences extends ManagedReferences_1.ManagedReferences {
-    createStatically(locator) {
-        var component = this._builder.create(locator);
-        if (component == null)
-            throw new pip_services_commons_node_2.ReferenceException(null, locator);
-        return component;
-    }
     putFromConfig(config) {
         for (var i = 0; i < config.length; i++) {
             let componentConfig = config[i];
@@ -25,7 +19,11 @@ class ContainerReferences extends ManagedReferences_1.ManagedReferences {
                 }
                 else if (componentConfig.descriptor != null) {
                     locator = componentConfig.descriptor;
-                    component = this.createStatically(componentConfig.descriptor);
+                    let factory = this._builder.findFactory(locator);
+                    component = this._builder.create(locator, factory);
+                    if (component == null)
+                        throw new pip_services_commons_node_2.ReferenceException(null, locator);
+                    locator = this._builder.clarifyLocator(locator, factory);
                 }
                 // Check that component was created
                 if (component == null) {

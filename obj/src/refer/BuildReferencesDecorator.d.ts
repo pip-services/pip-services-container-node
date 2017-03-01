@@ -1,10 +1,12 @@
 import { IReferences } from 'pip-services-commons-node';
 import { ReferenceQuery } from 'pip-services-commons-node';
+import { IFactory } from 'pip-services-commons-node';
 import { ReferencesDecorator } from './ReferencesDecorator';
 export declare class BuildReferencesDecorator extends ReferencesDecorator {
     constructor(baseReferences: IReferences, parentReferences: IReferences);
     buildEnabled: boolean;
-    private findFactory(locator);
-    create(locator: any): any;
+    findFactory(locator: any): IFactory;
+    create(locator: any, factory: IFactory): any;
+    clarifyLocator(locator: any, factory: IFactory): any;
     find<T>(query: ReferenceQuery, required: boolean): T[];
 }

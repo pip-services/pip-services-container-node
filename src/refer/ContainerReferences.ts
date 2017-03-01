@@ -10,13 +10,6 @@ import { ManagedReferences } from './ManagedReferences';
 
 export class ContainerReferences extends ManagedReferences {
 
-    private createStatically(locator: any): any {
-        var component = this._builder.create(locator);
-        if (component == null)
-            throw new ReferenceException(null, locator);
-        return component;
-    }
-
     public putFromConfig(config: ContainerConfig): void {
         for(var i = 0; i < config.length; i++) {
             let componentConfig: ComponentConfig = config[i];
@@ -30,8 +23,12 @@ export class ContainerReferences extends ManagedReferences {
                     component = TypeReflector.createInstanceByDescriptor(componentConfig.type);
                 // Or create component statically
                 } else if (componentConfig.descriptor != null) {
-                    locator = componentConfig.descriptor;
-                    component = this.createStatically(componentConfig.descriptor);
+					locator = componentConfig.descriptor;
+					let factory = this._builder.findFactory(locator);
+					component = this._builder.create(locator, factory);
+					if (component == null)
+						throw new ReferenceException(null, locator);
+					locator = this._builder.clarifyLocator(locator, factory);
                 }
 
                 // Check that component was created

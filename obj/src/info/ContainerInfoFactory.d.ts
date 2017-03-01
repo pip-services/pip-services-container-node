@@ -1,8 +1,7 @@
-import { IFactory } from 'pip-services-commons-node';
+import { Factory } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
-export declare class ContainerInfoFactory implements IFactory {
+export declare class ContainerInfoFactory extends Factory {
     static readonly Descriptor: Descriptor;
     static readonly ContainerInfoDescriptor: Descriptor;
-    canCreate(locator: any): boolean;
-    create(locator: any): any;
+    constructor();
 }
