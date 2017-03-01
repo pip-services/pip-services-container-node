@@ -9,4 +9,6 @@ __export(require("./info"));
 __export(require("./refer"));
 var Container_1 = require("./Container");
 exports.Container = Container_1.Container;
+var ProcessContainer_1 = require("./ProcessContainer");
+exports.ProcessContainer = ProcessContainer_1.ProcessContainer;
 //# sourceMappingURL=index.js.map
