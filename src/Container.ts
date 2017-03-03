@@ -81,7 +81,7 @@ export class Container {
                 var infoDescriptor = new Descriptor("*", "container-info", "*", "*", "*");
                 this._info = this._references.getOneRequired<ContainerInfo>(infoDescriptor);
 
-                this._logger.info(correlationId, "Container {0} started.", this._info.name);
+                this._logger.info(correlationId, "Container %s started.", this._info.name);
 
                 if (callback) callback(null);
             });
@@ -103,11 +103,11 @@ export class Container {
         }
 
         try {
-            this._logger.trace(correlationId, "Stopping {0} container", this._info.name);
+            this._logger.trace(correlationId, "Stopping %s container", this._info.name);
 
             // Close and deference components
             this._references.close(correlationId, (err) => {
-                this._logger.info(correlationId, "Container {0} stopped", this._info.name);
+                this._logger.info(correlationId, "Container %s stopped", this._info.name);
                 if (callback) callback(null);
             });
 
