@@ -11,4 +11,5 @@ $TestStyle = 'tdd'
 $Deploy = 'none'
 
 $Run = 'process'
-$RunCommand = 'node ./obj/examples/app.js ./config/dummy.yaml'
+$RunStartCommand = 'node'
+$RunStartArguments = @('./obj/examples/app.js', './config/dummy.yaml')

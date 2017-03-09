@@ -70,7 +70,7 @@ export class DummyController implements IReferenceable, IReconfigurable, IOpenab
     }
 
     public notify(correlationId: string, args: Parameters): void {
-        this._logger.info(correlationId, "{0} - {1}", this.counter++, this.message);
+        this._logger.info(correlationId, "%d - %s", this.counter++, this.message);
     }
 
 }
