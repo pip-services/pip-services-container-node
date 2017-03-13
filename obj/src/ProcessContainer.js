@@ -20,18 +20,21 @@ class ProcessContainer extends Container_1.Container {
         });
     }
     captureExit(correlationId) {
-        this._logger.info(null, "Press Control-C to stop the microservice...");
+        this._logger.info(correlationId, "Press Control-C to stop the microservice...");
+        // Activate graceful exit
+        process.on('SIGINT', () => {
+            process.exit();
+        });
         // Gracefully shutdown
-        process.on('exit', function () {
+        process.on('exit', () => {
             this.stop(correlationId);
             this._logger.info(correlationId, "Goodbye!");
         });
     }
     run(correlationId) {
         this.captureErrors(correlationId);
-        this.start(correlationId, (err) => {
-            this.captureExit(correlationId);
-        });
+        this.captureExit(correlationId);
+        this.start(correlationId);
     }
     runWithConfig(correlationId, config) {
         this._config = config;

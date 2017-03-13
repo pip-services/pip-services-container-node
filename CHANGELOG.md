@@ -1,5 +1,13 @@
 # IoC container for Pip.Services in Node.js Changelog
 
+## <a name="2.0.4"></a> 2.0.4 (2017-02-25)
+
+### Features
+* **build** Added default factories for ConfigReader, CredentialStore and Discovery components
+
+### Bug Fixes
+* Fixed Ctrl-C handling in ProcessContainer
+
 ## <a name="2.0.0"></a> 2.0.0 (2017-02-25)
 
 ### Breaking Changes

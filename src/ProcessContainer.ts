@@ -26,10 +26,15 @@ export class ProcessContainer extends Container {
     }
 
     private captureExit(correlationId: string): void {
-        this._logger.info(null, "Press Control-C to stop the microservice...");
+        this._logger.info(correlationId, "Press Control-C to stop the microservice...");
+
+        // Activate graceful exit
+        process.on('SIGINT', () => {
+            process.exit();
+        });
 
         // Gracefully shutdown
-        process.on('exit', function () {
+        process.on('exit', () => {
             this.stop(correlationId);
             this._logger.info(correlationId, "Goodbye!");
         });
@@ -37,9 +42,8 @@ export class ProcessContainer extends Container {
 
     public run(correlationId: string): void {
         this.captureErrors(correlationId);
-    	this.start(correlationId, (err) => {
-            this.captureExit(correlationId);
-        });
+        this.captureExit(correlationId);
+    	this.start(correlationId);
     }
 
     public runWithConfig(correlationId: string, config: ContainerConfig): void {
