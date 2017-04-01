@@ -22,8 +22,8 @@ suite('ContainerInfo', ()=> {
         assert.isNull(containerInfo.description);
 
         let update: string = "new description";
-        containerInfo.name = update;
-        assert.equal(containerInfo.name, update);
+        containerInfo.description = update;
+        assert.equal(containerInfo.description, update);
     });    
 
     test('ContainerId', () => {
@@ -48,11 +48,11 @@ suite('ContainerInfo', ()=> {
 
     test('FromConfig', () => {
         let config: ConfigParams = ConfigParams.fromTuples(
-                "info.name", "new name",
-                "info.description", "new description",
-                "properties.access_key", "key",
-                "properties.store_key", "store key"
-                );
+            "info.name", "new name",
+            "info.description", "new description",
+            "properties.access_key", "key",
+            "properties.store_key", "store key"
+        );
 
         let containerInfo: ContainerInfo = ContainerInfo.fromConfig(config);
         assert.equal(containerInfo.name, "new name");

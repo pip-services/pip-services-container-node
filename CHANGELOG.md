@@ -1,5 +1,10 @@
 # IoC container for Pip.Services in Node.js Changelog
 
+## <a name="2.0.6"></a> 2.0.6 (2017-02-25)
+
+### Bug Fixes
+* Fixed reading ContainerInfo from config
+
 ## <a name="2.0.4"></a> 2.0.4 (2017-02-25)
 
 ### Features
