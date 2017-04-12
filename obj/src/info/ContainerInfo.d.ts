@@ -6,7 +6,7 @@ export declare class ContainerInfo implements IReconfigurable {
     private _containerId;
     private _startTime;
     private _properties;
-    constructor();
+    constructor(name?: string, description?: string);
     configure(config: ConfigParams): void;
     name: string;
     description: string;

@@ -3,12 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 class ContainerInfo {
-    constructor() {
+    constructor(name, description) {
         this._name = "unknown";
         this._description = null;
         this._containerId = pip_services_commons_node_1.IdGenerator.nextLong();
         this._startTime = new Date();
         this._properties = new pip_services_commons_node_2.StringValueMap();
+        this._name = name || "unknown";
+        this._description = description || null;
     }
     configure(config) {
         this.name = config.getAsStringWithDefault("name", this.name);

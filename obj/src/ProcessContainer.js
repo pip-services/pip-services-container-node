@@ -5,11 +5,12 @@ const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 const Container_1 = require("./Container");
 class ProcessContainer extends Container_1.Container {
-    constructor() {
-        super();
+    constructor(name, description) {
+        super(name, description);
+        this._configPath = './config/config.yaml';
         this._logger = new pip_services_commons_node_1.ConsoleLogger();
     }
-    getConfigPath(args, defaultPath) {
+    getConfigPath(args) {
         for (let index = 0; index < args.length; index++) {
             let arg = args[index];
             let nextArg = index < args.length - 1 ? args[index + 1] : null;
@@ -20,7 +21,7 @@ class ProcessContainer extends Container_1.Container {
                 }
             }
         }
-        return defaultPath;
+        return this._configPath;
     }
     getParameters(args) {
         // Process command line parameters
@@ -74,24 +75,18 @@ class ProcessContainer extends Container_1.Container {
             this._logger.info(correlationId, "Goodbye!");
         });
     }
-    run(correlationId) {
-        this.captureErrors(correlationId);
-        this.captureExit(correlationId);
-        this.open(correlationId);
-    }
-    runWithConfig(correlationId, config) {
-        this._config = config;
-        this.run(correlationId);
-    }
-    runWithArgumentsOrConfigFile(correlationId, args, defaultPath) {
+    run(args) {
         if (this.showHelp(args)) {
             this.printHelp();
             return;
         }
-        let path = this.getConfigPath(args, defaultPath);
+        let correlationId = this._info.name;
+        let path = this.getConfigPath(args);
         let parameters = this.getParameters(args);
         this.readConfigFromFile(correlationId, path, parameters);
-        this.run(correlationId);
+        this.captureErrors(correlationId);
+        this.captureExit(correlationId);
+        this.open(correlationId);
     }
 }
 exports.ProcessContainer = ProcessContainer;

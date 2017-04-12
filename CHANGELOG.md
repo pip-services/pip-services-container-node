@@ -1,9 +1,11 @@
 # IoC container for Pip.Services in Node.js Changelog
 
-## <a name="2.1.1"></a> 2.1.1 (2017-04-12)
+## <a name="2.1.3"></a> 2.1.3 (2017-04-12)
 
 ### Features
 * **container** Now supports IConfigurable, IReferenceable, IUnreferenceable and IOpenable interfaces
+* Added name and description to container constructor
+* Now container info is defined automatically
 
 ### Bug Fixes
 * Container start and stop methods were renamed to open and close

@@ -3,17 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 const pip_services_commons_node_3 = require("pip-services-commons-node");
-const pip_services_commons_node_4 = require("pip-services-commons-node");
 const DefaultContainerFactory_1 = require("./build/DefaultContainerFactory");
 const ContainerConfig_1 = require("./config/ContainerConfig");
 const ContainerConfigReader_1 = require("./config/ContainerConfigReader");
 const ContainerInfo_1 = require("./info/ContainerInfo");
+const ContainerInfoFactory_1 = require("./info/ContainerInfoFactory");
 const ContainerReferences_1 = require("./refer/ContainerReferences");
 class Container {
-    constructor(config) {
-        this._logger = new pip_services_commons_node_2.NullLogger();
-        this._info = new ContainerInfo_1.ContainerInfo();
-        this._config = config;
+    constructor(name, description) {
+        this._logger = new pip_services_commons_node_1.NullLogger();
+        this._factories = new DefaultContainerFactory_1.DefaultContainerFactory();
+        // Override in child classes
+        this._info = new ContainerInfo_1.ContainerInfo(name, description);
     }
     configure(config) {
         this._config = ContainerConfig_1.ContainerConfig.fromConfig(config);
@@ -28,14 +29,15 @@ class Container {
         // Override in child classes
     }
     initReferences(references) {
-        references.put(DefaultContainerFactory_1.DefaultContainerFactory.Descriptor, new DefaultContainerFactory_1.DefaultContainerFactory());
+        references.put(ContainerInfoFactory_1.ContainerInfoFactory.ContainerInfoDescriptor, this._info);
+        references.put(DefaultContainerFactory_1.DefaultContainerFactory.Descriptor, this._factories);
     }
     isOpened() {
         return this._references != null;
     }
     open(correlationId, callback) {
         if (this._references != null) {
-            var err = new pip_services_commons_node_4.InvalidStateException(correlationId, "ALREADY_OPENED", "Container was already opened");
+            var err = new pip_services_commons_node_3.InvalidStateException(correlationId, "ALREADY_OPENED", "Container was already opened");
             if (callback)
                 callback(err);
             else
@@ -51,10 +53,7 @@ class Container {
             this.setReferences(this._references);
             this._references.open(correlationId, (err) => {
                 // Get reference to logger
-                this._logger = new pip_services_commons_node_3.CompositeLogger(this._references);
-                // Get reference to container info
-                var infoDescriptor = new pip_services_commons_node_1.Descriptor("*", "container-info", "*", "*", "*");
-                this._info = this._references.getOneRequired(infoDescriptor);
+                this._logger = new pip_services_commons_node_2.CompositeLogger(this._references);
                 this._logger.info(correlationId, "Container %s started.", this._info.name);
                 if (callback)
                     callback(null);
@@ -62,12 +61,17 @@ class Container {
         }
         catch (ex) {
             this._logger.error(correlationId, ex, "Failed to start container");
-            this.close(correlationId, callback);
+            this.close(correlationId, (err) => {
+                if (callback)
+                    callback(ex);
+                else
+                    throw ex;
+            });
         }
     }
     close(correlationId, callback) {
         if (this._references == null) {
-            var err = new pip_services_commons_node_4.InvalidStateException(correlationId, "NOT_STARTED", "Container was not started");
+            var err = new pip_services_commons_node_3.InvalidStateException(correlationId, "NOT_STARTED", "Container was not started");
             if (callback)
                 callback(err);
             else

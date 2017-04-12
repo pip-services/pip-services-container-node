@@ -7,14 +7,14 @@ import { ContainerConfig } from './config/ContainerConfig';
 import { Container } from './Container';
 
 export class ProcessContainer extends Container {
+    protected _configPath: string = './config/config.yaml';
 
-    public constructor() {
-        super();
-
+    public constructor(name?: string, description?: string) {
+        super(name, description);
         this._logger = new ConsoleLogger();
     }
 
-    private getConfigPath(args: string[], defaultPath: string): string {
+    private getConfigPath(args: string[]): string {
         for (let index = 0; index < args.length; index++) {
             let arg = args[index];
             let nextArg = index < args.length - 1 ? args[index + 1] : null;
@@ -25,7 +25,7 @@ export class ProcessContainer extends Container {
                 }
             }
         }
-        return defaultPath;
+        return this._configPath;
     }
 
     private getParameters(args: string[]): ConfigParams {
@@ -89,28 +89,21 @@ export class ProcessContainer extends Container {
         });
     }
 
-    public run(correlationId: string): void {
-        this.captureErrors(correlationId);
-        this.captureExit(correlationId);
-    	this.open(correlationId);
-    }
-
-    public runWithConfig(correlationId: string, config: ContainerConfig): void {
-    	this._config = config;
-    	this.run(correlationId);
-    }
-
-    public runWithArgumentsOrConfigFile(correlationId: string, args: string[], defaultPath: string): void {
+    public run(args: string[]): void {
         if (this.showHelp(args)) {
             this.printHelp();
             return;
         }
 
-        let path = this.getConfigPath(args, defaultPath);
+        let correlationId = this._info.name;
+        let path = this.getConfigPath(args);
         let parameters = this.getParameters(args);
         this.readConfigFromFile(correlationId, path, parameters);
 
-    	this.run(correlationId);
+        this.captureErrors(correlationId);
+        this.captureExit(correlationId);
+
+    	this.open(correlationId);
     }
 
 }

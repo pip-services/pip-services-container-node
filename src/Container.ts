@@ -1,5 +1,3 @@
-import { JsonConfigReader } from 'pip-services-commons-node';
-import { YamlConfigReader } from 'pip-services-commons-node';
 import { ConfigException } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 import { Referencer } from 'pip-services-commons-node';
@@ -19,16 +17,19 @@ import { DefaultContainerFactory } from './build/DefaultContainerFactory';
 import { ContainerConfig } from './config/ContainerConfig';
 import { ContainerConfigReader } from './config/ContainerConfigReader';
 import { ContainerInfo } from './info/ContainerInfo';
+import { ContainerInfoFactory } from './info/ContainerInfoFactory';
 import { ContainerReferences } from './refer/ContainerReferences';
 
 export class Container implements IConfigurable, IReferenceable, IUnreferenceable, IOpenable {
-    protected _logger: ILogger = new NullLogger()
-    protected _info: ContainerInfo = new ContainerInfo()
+    protected _logger: ILogger = new NullLogger();
+    protected _factories: DefaultContainerFactory = new DefaultContainerFactory();
+    protected _info: ContainerInfo;
     protected _config: ContainerConfig;
     protected _references: ContainerReferences;
 
-    public constructor(config?: ContainerConfig) {
-        this._config = config;
+    public constructor(name?: string, description?: string) {
+        // Override in child classes
+        this._info = new ContainerInfo(name, description);
     }
 
     public configure(config: ConfigParams): void {
@@ -47,8 +48,9 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
         // Override in child classes
     }
 
-    public initReferences(references: IReferences): void {
-        references.put(DefaultContainerFactory.Descriptor, new DefaultContainerFactory());
+    private initReferences(references: IReferences): void {
+        references.put(ContainerInfoFactory.ContainerInfoDescriptor, this._info);
+        references.put(DefaultContainerFactory.Descriptor, this._factories);
     }
 
     public isOpened(): boolean {
@@ -75,18 +77,17 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
             this._references.open(correlationId, (err) => {
                 // Get reference to logger
                 this._logger = new CompositeLogger(this._references);
-
-                // Get reference to container info
-                var infoDescriptor = new Descriptor("*", "container-info", "*", "*", "*");
-                this._info = this._references.getOneRequired<ContainerInfo>(infoDescriptor);
-
                 this._logger.info(correlationId, "Container %s started.", this._info.name);
 
                 if (callback) callback(null);
             });
         } catch (ex) {
             this._logger.error(correlationId, ex, "Failed to start container");
-            this.close(correlationId, callback);
+
+            this.close(correlationId, (err) => {
+                if (callback) callback(ex);
+                else throw ex;
+            });
         }
     }
 		

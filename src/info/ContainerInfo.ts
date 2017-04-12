@@ -10,7 +10,10 @@ export class ContainerInfo implements IReconfigurable {
 	private _startTime: Date = new Date();
 	private _properties: StringValueMap = new StringValueMap();
 
-	public constructor() {}
+	public constructor(name?: string, description?: string) {
+		this._name = name || "unknown";
+		this._description = description || null;
+	}
 
 	public configure(config: ConfigParams): void {
 		this.name = config.getAsStringWithDefault("name", this.name);
