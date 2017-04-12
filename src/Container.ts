@@ -74,6 +74,10 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
             this._references.putFromConfig(this._config);
             this.setReferences(this._references);
 
+            // Get custom description if available
+            let infoDescriptor = new Descriptor("*", "container-info", "*", "*", "*");
+            this._info = this._references.getOneOptional<ContainerInfo>(infoDescriptor);
+
             this._references.open(correlationId, (err) => {
                 // Get reference to logger
                 this._logger = new CompositeLogger(this._references);

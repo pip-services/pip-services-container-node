@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 const pip_services_commons_node_3 = require("pip-services-commons-node");
+const pip_services_commons_node_4 = require("pip-services-commons-node");
 const DefaultContainerFactory_1 = require("./build/DefaultContainerFactory");
 const ContainerConfig_1 = require("./config/ContainerConfig");
 const ContainerConfigReader_1 = require("./config/ContainerConfigReader");
@@ -11,7 +12,7 @@ const ContainerInfoFactory_1 = require("./info/ContainerInfoFactory");
 const ContainerReferences_1 = require("./refer/ContainerReferences");
 class Container {
     constructor(name, description) {
-        this._logger = new pip_services_commons_node_1.NullLogger();
+        this._logger = new pip_services_commons_node_2.NullLogger();
         this._factories = new DefaultContainerFactory_1.DefaultContainerFactory();
         // Override in child classes
         this._info = new ContainerInfo_1.ContainerInfo(name, description);
@@ -37,7 +38,7 @@ class Container {
     }
     open(correlationId, callback) {
         if (this._references != null) {
-            var err = new pip_services_commons_node_3.InvalidStateException(correlationId, "ALREADY_OPENED", "Container was already opened");
+            var err = new pip_services_commons_node_4.InvalidStateException(correlationId, "ALREADY_OPENED", "Container was already opened");
             if (callback)
                 callback(err);
             else
@@ -51,9 +52,12 @@ class Container {
             this.initReferences(this._references);
             this._references.putFromConfig(this._config);
             this.setReferences(this._references);
+            // Get custom description if available
+            let infoDescriptor = new pip_services_commons_node_1.Descriptor("*", "container-info", "*", "*", "*");
+            this._info = this._references.getOneOptional(infoDescriptor);
             this._references.open(correlationId, (err) => {
                 // Get reference to logger
-                this._logger = new pip_services_commons_node_2.CompositeLogger(this._references);
+                this._logger = new pip_services_commons_node_3.CompositeLogger(this._references);
                 this._logger.info(correlationId, "Container %s started.", this._info.name);
                 if (callback)
                     callback(null);
@@ -71,7 +75,7 @@ class Container {
     }
     close(correlationId, callback) {
         if (this._references == null) {
-            var err = new pip_services_commons_node_3.InvalidStateException(correlationId, "NOT_STARTED", "Container was not started");
+            var err = new pip_services_commons_node_4.InvalidStateException(correlationId, "NOT_STARTED", "Container was not started");
             if (callback)
                 callback(err);
             else
