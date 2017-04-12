@@ -55,7 +55,7 @@ export class ProcessContainer extends Container {
     private showHelp(args: string[]) {
         for (let index = 0; index < args.length; index++) {
             let arg = args[index];
-            if (arg == "--help" || arg == "-c=h")
+            if (arg == "--help" || arg == "-h")
                 return true;
         }
         return false;
