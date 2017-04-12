@@ -24,12 +24,15 @@ class ManagedReferences extends ReferencesDecorator_1.ReferencesDecorator {
     open(correlationId, callback) {
         let components = this._references.getAll();
         pip_services_commons_node_4.Referencer.setReferences(this, components);
-        pip_services_commons_node_1.Opener.open(correlationId, components);
+        pip_services_commons_node_1.Opener.open(correlationId, components, callback);
     }
     close(correlationId, callback) {
         let components = this._references.getAll();
-        pip_services_commons_node_2.Closer.close(correlationId, components);
-        pip_services_commons_node_4.Referencer.unsetReferences(components);
+        pip_services_commons_node_2.Closer.close(correlationId, components, (err) => {
+            pip_services_commons_node_4.Referencer.unsetReferences(components);
+            if (callback)
+                callback(err);
+        });
     }
     static fromTuples(...tuples) {
         return new ManagedReferences(tuples);

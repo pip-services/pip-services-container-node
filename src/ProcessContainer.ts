@@ -84,7 +84,7 @@ export class ProcessContainer extends Container {
 
         // Gracefully shutdown
         process.on('exit', () => {
-            this.stop(correlationId);
+            this.close(correlationId);
             this._logger.info(correlationId, "Goodbye!");
         });
     }
@@ -92,7 +92,7 @@ export class ProcessContainer extends Container {
     public run(correlationId: string): void {
         this.captureErrors(correlationId);
         this.captureExit(correlationId);
-    	this.start(correlationId);
+    	this.open(correlationId);
     }
 
     public runWithConfig(correlationId: string, config: ContainerConfig): void {

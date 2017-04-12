@@ -1,23 +1,25 @@
+import { IOpenable } from 'pip-services-commons-node';
 import { IReferences } from 'pip-services-commons-node';
+import { IReferenceable } from 'pip-services-commons-node';
+import { IUnreferenceable } from 'pip-services-commons-node';
 import { ILogger } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
+import { IConfigurable } from 'pip-services-commons-node';
 import { ContainerConfig } from './config/ContainerConfig';
 import { ContainerInfo } from './info/ContainerInfo';
 import { ContainerReferences } from './refer/ContainerReferences';
-export declare class Container {
+export declare class Container implements IConfigurable, IReferenceable, IUnreferenceable, IOpenable {
     protected _logger: ILogger;
     protected _info: ContainerInfo;
     protected _config: ContainerConfig;
     protected _references: ContainerReferences;
     constructor(config?: ContainerConfig);
-    getInfo(): ContainerInfo;
-    setInfo(value: ContainerInfo): void;
-    getConfig(): ContainerConfig;
-    setConfig(value: ContainerConfig): void;
-    getReferences(): ContainerReferences;
-    setReferences(value: ContainerReferences): void;
+    configure(config: ConfigParams): void;
     readConfigFromFile(correlationId: string, path: string, parameters: ConfigParams): void;
-    protected initReferences(references: IReferences): void;
-    start(correlationId: string, callback?: (err: any) => void): void;
-    stop(correlationId: string, callback?: (err: any) => void): void;
+    setReferences(references: IReferences): void;
+    unsetReferences(): void;
+    initReferences(references: IReferences): void;
+    isOpened(): boolean;
+    open(correlationId: string, callback?: (err: any) => void): void;
+    close(correlationId: string, callback?: (err: any) => void): void;
 }

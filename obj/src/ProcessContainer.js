@@ -46,7 +46,7 @@ class ProcessContainer extends Container_1.Container {
     showHelp(args) {
         for (let index = 0; index < args.length; index++) {
             let arg = args[index];
-            if (arg == "--help" || arg == "-c=h")
+            if (arg == "--help" || arg == "-h")
                 return true;
         }
         return false;
@@ -70,14 +70,14 @@ class ProcessContainer extends Container_1.Container {
         });
         // Gracefully shutdown
         process.on('exit', () => {
-            this.stop(correlationId);
+            this.close(correlationId);
             this._logger.info(correlationId, "Goodbye!");
         });
     }
     run(correlationId) {
         this.captureErrors(correlationId);
         this.captureExit(correlationId);
-        this.start(correlationId);
+        this.open(correlationId);
     }
     runWithConfig(correlationId, config) {
         this._config = config;

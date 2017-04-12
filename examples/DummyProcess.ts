@@ -5,7 +5,7 @@ import { DummyFactory } from './DummyFactory';
 
 export class DummyProcess extends ProcessContainer {
 
-    protected initReferences(references: IReferences): void {
+    public initReferences(references: IReferences): void {
         super.initReferences(references);
 
         // Factory to statically resolve dummy components

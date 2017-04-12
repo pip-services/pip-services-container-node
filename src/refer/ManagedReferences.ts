@@ -34,13 +34,15 @@ export class ManagedReferences extends ReferencesDecorator implements IOpenable 
     public open(correlationId: string, callback?: (err: any) => void): void {
         let components = this._references.getAll();
         Referencer.setReferences(this, components);
-        Opener.open(correlationId, components);
+        Opener.open(correlationId, components, callback);
     }
 
     public close(correlationId: string, callback?: (err: any) => void): void {
         let components = this._references.getAll();
-        Closer.close(correlationId, components);
-        Referencer.unsetReferences(components);
+        Closer.close(correlationId, components, (err) => {
+            Referencer.unsetReferences(components);
+            if (callback) callback(err);
+        });
     }
 
 	public static fromTuples(...tuples: any[]): ManagedReferences {

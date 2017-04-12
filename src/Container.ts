@@ -3,13 +3,17 @@ import { YamlConfigReader } from 'pip-services-commons-node';
 import { ConfigException } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 import { Referencer } from 'pip-services-commons-node';
+import { IOpenable } from 'pip-services-commons-node';
 import { Opener } from 'pip-services-commons-node';
 import { IReferences } from 'pip-services-commons-node';
+import { IReferenceable } from 'pip-services-commons-node';
+import { IUnreferenceable } from 'pip-services-commons-node';
 import { ILogger } from 'pip-services-commons-node';
 import { NullLogger } from 'pip-services-commons-node';
 import { CompositeLogger } from 'pip-services-commons-node';
 import { InvalidStateException } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
+import { IConfigurable } from 'pip-services-commons-node';
 
 import { DefaultContainerFactory } from './build/DefaultContainerFactory';
 import { ContainerConfig } from './config/ContainerConfig';
@@ -17,48 +21,43 @@ import { ContainerConfigReader } from './config/ContainerConfigReader';
 import { ContainerInfo } from './info/ContainerInfo';
 import { ContainerReferences } from './refer/ContainerReferences';
 
-export class Container {
+export class Container implements IConfigurable, IReferenceable, IUnreferenceable, IOpenable {
     protected _logger: ILogger = new NullLogger()
     protected _info: ContainerInfo = new ContainerInfo()
     protected _config: ContainerConfig;
-    protected _references: ContainerReferences = new ContainerReferences();
+    protected _references: ContainerReferences;
 
     public constructor(config?: ContainerConfig) {
         this._config = config;
     }
 
-	public getInfo(): ContainerInfo { 
-        return this._info; 
-    }
-	public setInfo(value: ContainerInfo) { 
-        this._info = value; 
-    }
-
-	public getConfig(): ContainerConfig { 
-        return this._config; 
-    }
-	public setConfig(value: ContainerConfig) { 
-        this._config = value; 
-    }
-
-	public getReferences(): ContainerReferences { 
-        return this._references; 
-    }
-	public setReferences(value: ContainerReferences) { 
-        this._references = value; 
+    public configure(config: ConfigParams): void {
+        this._config = ContainerConfig.fromConfig(config);
     }
 
     public readConfigFromFile(correlationId: string, path: string, parameters: ConfigParams): void {
         this._config = ContainerConfigReader.readFromFile(correlationId, path, parameters);
     }
 
-    protected initReferences(references: IReferences): void {
+	public setReferences(references: IReferences): void { 
+        // Override in child classes
+    }
+
+    public unsetReferences(): void {
+        // Override in child classes
+    }
+
+    public initReferences(references: IReferences): void {
         references.put(DefaultContainerFactory.Descriptor, new DefaultContainerFactory());
     }
 
-    public start(correlationId: string, callback?: (err: any) => void): void {
-        if (this._references == null) {
-            var err = new InvalidStateException(correlationId, "NO_CONFIG", "Container was not configured");
+    public isOpened(): boolean {
+        return this._references != null;
+    }
+
+    public open(correlationId: string, callback?: (err: any) => void): void {
+        if (this._references != null) {
+            var err = new InvalidStateException(correlationId, "ALREADY_OPENED", "Container was already opened");
             if (callback) callback(err);
             else throw err;
             return;
@@ -68,13 +67,12 @@ export class Container {
             this._logger.trace(correlationId, "Starting container.");
 
             // Create references with configured components
+            this._references = new ContainerReferences();
             this.initReferences(this._references);
             this._references.putFromConfig(this._config);
+            this.setReferences(this._references);
 
-            // Reference and open components
-            let components: any[] = this._references.getAll();
-            Referencer.setReferences(this._references, components);
-            Opener.open(correlationId, components, (err) => {
+            this._references.open(correlationId, (err) => {
                 // Get reference to logger
                 this._logger = new CompositeLogger(this._references);
 
@@ -87,17 +85,14 @@ export class Container {
                 if (callback) callback(null);
             });
         } catch (ex) {
-            this._references = null;
             this._logger.error(correlationId, ex, "Failed to start container");
-            
-            if (callback) callback(ex);
-            else throw ex;
+            this.close(correlationId, callback);
         }
     }
 		
-    public stop(correlationId: string, callback?: (err: any) => void): void {
+    public close(correlationId: string, callback?: (err: any) => void): void {
         if (this._references == null) {
-            var err = new InvalidStateException(correlationId, "NO_STARTED", "Container was not started");
+            var err = new InvalidStateException(correlationId, "NOT_STARTED", "Container was not started");
             if (callback) callback(err);
             else throw err;
             return;
@@ -106,8 +101,12 @@ export class Container {
         try {
             this._logger.trace(correlationId, "Stopping %s container", this._info.name);
 
+            // Unset references for child container
+            this.unsetReferences();
+
             // Close and deference components
             this._references.close(correlationId, (err) => {
+                this._references = null;
                 this._logger.info(correlationId, "Container %s stopped", this._info.name);
                 if (callback) callback(null);
             });
