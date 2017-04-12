@@ -12,4 +12,4 @@ $Deploy = 'none'
 
 $Run = 'process'
 $RunStartCommand = 'node'
-$RunStartArguments = @('./obj/examples/app.js', './config/dummy.yaml')
+$RunStartArguments = @('./obj/examples/app.js', '-c', './config/dummy.yaml')

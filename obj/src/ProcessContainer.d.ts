@@ -2,7 +2,10 @@ import { ContainerConfig } from './config/ContainerConfig';
 import { Container } from './Container';
 export declare class ProcessContainer extends Container {
     constructor();
-    readConfigFromArgumentsOrFile(correlationId: string, args: string[], defaultPath: string): void;
+    private getConfigPath(args, defaultPath);
+    private getParameters(args);
+    private showHelp(args);
+    private printHelp();
     private captureErrors(correlationId);
     private captureExit(correlationId);
     run(correlationId: string): void;

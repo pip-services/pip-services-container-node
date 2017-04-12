@@ -9,6 +9,7 @@ import { ILogger } from 'pip-services-commons-node';
 import { NullLogger } from 'pip-services-commons-node';
 import { CompositeLogger } from 'pip-services-commons-node';
 import { InvalidStateException } from 'pip-services-commons-node';
+import { ConfigParams } from 'pip-services-commons-node';
 
 import { DefaultContainerFactory } from './build/DefaultContainerFactory';
 import { ContainerConfig } from './config/ContainerConfig';
@@ -47,8 +48,8 @@ export class Container {
         this._references = value; 
     }
 
-    public readConfigFromFile(correlationId: string, path: string): void {
-        this._config = ContainerConfigReader.readFromFile(correlationId, path);
+    public readConfigFromFile(correlationId: string, path: string, parameters: ConfigParams): void {
+        this._config = ContainerConfigReader.readFromFile(correlationId, path, parameters);
     }
 
     protected initReferences(references: IReferences): void {

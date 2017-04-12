@@ -35,8 +35,8 @@ class Container {
     setReferences(value) {
         this._references = value;
     }
-    readConfigFromFile(correlationId, path) {
-        this._config = ContainerConfigReader_1.ContainerConfigReader.readFromFile(correlationId, path);
+    readConfigFromFile(correlationId, path, parameters) {
+        this._config = ContainerConfigReader_1.ContainerConfigReader.readFromFile(correlationId, path, parameters);
     }
     initReferences(references) {
         references.put(DefaultContainerFactory_1.DefaultContainerFactory.Descriptor, new DefaultContainerFactory_1.DefaultContainerFactory());
