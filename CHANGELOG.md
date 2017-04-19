@@ -1,5 +1,10 @@
 # IoC container for Pip.Services in Node.js Changelog
 
+## <a name="2.1.4"></a> 2.1.4 (2017-04-18)
+
+### Bug Fixes
+* Fixed error handling in Container.open()
+
 ## <a name="2.1.3"></a> 2.1.3 (2017-04-12)
 
 ### Features

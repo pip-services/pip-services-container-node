@@ -83,10 +83,15 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
                 this._logger = new CompositeLogger(this._references);
                 this._logger.info(correlationId, "Container %s started.", this._info.name);
 
-                if (callback) callback(null);
+                if (err) {
+                    this._logger.fatal(correlationId, err, "Failed to start container");
+                    this.close(correlationId, callback);
+                } else {
+                    if (callback) callback(null);
+                }
             });
         } catch (ex) {
-            this._logger.error(correlationId, ex, "Failed to start container");
+            this._logger.fatal(correlationId, ex, "Failed to start container");
 
             this.close(correlationId, (err) => {
                 if (callback) callback(ex);
