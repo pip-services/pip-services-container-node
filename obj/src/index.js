@@ -7,6 +7,8 @@ __export(require("./build"));
 __export(require("./config"));
 __export(require("./info"));
 __export(require("./refer"));
+var Component_1 = require("./Component");
+exports.Component = Component_1.Component;
 var Container_1 = require("./Container");
 exports.Container = Container_1.Container;
 var ProcessContainer_1 = require("./ProcessContainer");
