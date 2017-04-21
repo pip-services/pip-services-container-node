@@ -27,21 +27,22 @@ export class ManagedReferences extends ReferencesDecorator implements IOpenable 
     }
 
     public isOpened(): boolean {
-        let components = this._references.getAll();
-        return Opener.isOpened(components);
+        return this._linker.isOpened() && this._runner.isOpened();
     }
     
     public open(correlationId: string, callback?: (err: any) => void): void {
-        let components = this._references.getAll();
-        Referencer.setReferences(this, components);
-        Opener.open(correlationId, components, callback);
+        this._linker.open(correlationId, (err) => {
+            if (err == null)
+                this._runner.open(correlationId, callback);
+            else if (callback) callback(err);
+        });
     }
 
     public close(correlationId: string, callback?: (err: any) => void): void {
-        let components = this._references.getAll();
-        Closer.close(correlationId, components, (err) => {
-            Referencer.unsetReferences(components);
-            if (callback) callback(err);
+        this._runner.close(correlationId, (err) => {
+            if (err == null)
+                this._linker.close(correlationId, callback);
+            else if (callback) callback(err);
         });
     }
 

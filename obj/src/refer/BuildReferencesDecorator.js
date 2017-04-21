@@ -7,7 +7,6 @@ const ReferencesDecorator_1 = require("./ReferencesDecorator");
 class BuildReferencesDecorator extends ReferencesDecorator_1.ReferencesDecorator {
     constructor(baseReferences, parentReferences) {
         super(baseReferences, parentReferences);
-        this.buildEnabled = true;
     }
     findFactory(locator) {
         let components = this.getAll();
@@ -48,7 +47,7 @@ class BuildReferencesDecorator extends ReferencesDecorator_1.ReferencesDecorator
     find(locator, required) {
         let components = super.find(locator, false);
         // Try to create component
-        if (components.length == 0 && this.buildEnabled) {
+        if (components.length == 0) {
             let factory = this.findFactory(locator);
             let component = this.create(locator, factory);
             if (component != null) {

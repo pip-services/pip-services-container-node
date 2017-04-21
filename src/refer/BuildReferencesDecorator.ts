@@ -12,8 +12,6 @@ export class BuildReferencesDecorator extends ReferencesDecorator {
     	super(baseReferences, parentReferences);
     }
 	
-	public buildEnabled: boolean = true;
-
     public findFactory(locator: any): IFactory {
         let components = this.getAll();
         for (let index = 0; index < components.length; index++) {
@@ -62,7 +60,7 @@ export class BuildReferencesDecorator extends ReferencesDecorator {
         let components = super.find<T>(locator, false);
 
         // Try to create component
-        if (components.length == 0 && this.buildEnabled) {
+        if (components.length == 0) {
             let factory = this.findFactory(locator);
             let component = this.create(locator, factory);
             if (component != null) {

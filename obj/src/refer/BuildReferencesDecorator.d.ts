@@ -3,7 +3,6 @@ import { IFactory } from 'pip-services-commons-node';
 import { ReferencesDecorator } from './ReferencesDecorator';
 export declare class BuildReferencesDecorator extends ReferencesDecorator {
     constructor(baseReferences: IReferences, parentReferences: IReferences);
-    buildEnabled: boolean;
     findFactory(locator: any): IFactory;
     create(locator: any, factory: IFactory): any;
     clarifyLocator(locator: any, factory: IFactory): any;
