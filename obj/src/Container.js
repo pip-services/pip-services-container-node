@@ -80,12 +80,10 @@ class Container {
         }
     }
     close(correlationId, callback) {
+        // Skip if container wasn't opened
         if (this._references == null) {
-            var err = new pip_services_commons_node_4.InvalidStateException(correlationId, "NOT_STARTED", "Container was not started");
             if (callback)
-                callback(err);
-            else
-                throw err;
+                callback(null);
             return;
         }
         try {

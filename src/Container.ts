@@ -101,10 +101,9 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
     }
 		
     public close(correlationId: string, callback?: (err: any) => void): void {
+        // Skip if container wasn't opened
         if (this._references == null) {
-            var err = new InvalidStateException(correlationId, "NOT_STARTED", "Container was not started");
-            if (callback) callback(err);
-            else throw err;
+            if (callback) callback(null);
             return;
         }
 
