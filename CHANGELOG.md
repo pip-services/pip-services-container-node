@@ -1,5 +1,15 @@
 # IoC container for Pip.Services in Node.js Changelog
 
+## <a name="2.2.0"></a> 2.2.0 (2017-04-20)
+
+### Features
+* Migrated to pip-services-commons 2.4
+* Implemented IOpenable interface in ManagedReferences 
+* Added Component class
+
+### Bug Fixes
+* Removed exception when fail to start container is being closed
+
 ## <a name="2.1.4"></a> 2.1.4 (2017-04-18)
 
 ### Bug Fixes

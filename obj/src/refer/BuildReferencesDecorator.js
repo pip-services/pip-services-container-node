@@ -45,9 +45,8 @@ class BuildReferencesDecorator extends ReferencesDecorator_1.ReferencesDecorator
         let anotherDescriptor = anotherLocator;
         return new pip_services_commons_node_2.Descriptor(descriptor.getGroup() != null ? descriptor.getGroup() : anotherDescriptor.getGroup(), descriptor.getType() != null ? descriptor.getType() : anotherDescriptor.getType(), descriptor.getKind() != null ? descriptor.getKind() : anotherDescriptor.getKind(), descriptor.getName() != null ? descriptor.getName() : anotherDescriptor.getName(), descriptor.getVersion() != null ? descriptor.getVersion() : anotherDescriptor.getVersion());
     }
-    find(query, required) {
-        let components = super.find(query, false);
-        let locator = query.locator;
+    find(locator, required) {
+        let components = super.find(locator, false);
         // Try to create component
         if (components.length == 0 && this.buildEnabled) {
             let factory = this.findFactory(locator);

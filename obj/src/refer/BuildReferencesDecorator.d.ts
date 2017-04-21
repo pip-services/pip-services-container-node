@@ -1,5 +1,4 @@
 import { IReferences } from 'pip-services-commons-node';
-import { ReferenceQuery } from 'pip-services-commons-node';
 import { IFactory } from 'pip-services-commons-node';
 import { ReferencesDecorator } from './ReferencesDecorator';
 export declare class BuildReferencesDecorator extends ReferencesDecorator {
@@ -8,5 +7,5 @@ export declare class BuildReferencesDecorator extends ReferencesDecorator {
     findFactory(locator: any): IFactory;
     create(locator: any, factory: IFactory): any;
     clarifyLocator(locator: any, factory: IFactory): any;
-    find<T>(query: ReferenceQuery, required: boolean): T[];
+    find<T>(locator: any, required: boolean): T[];
 }

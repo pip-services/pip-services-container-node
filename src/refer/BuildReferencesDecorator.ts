@@ -1,7 +1,6 @@
 let _ = require('lodash');
 
 import { IReferences } from 'pip-services-commons-node';
-import { ReferenceQuery } from 'pip-services-commons-node';
 import { ReferenceException } from 'pip-services-commons-node';
 import { IFactory } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
@@ -59,9 +58,8 @@ export class BuildReferencesDecorator extends ReferencesDecorator {
 		);
     }
 
-    public find<T>(query: ReferenceQuery, required: boolean): T[] {
-        let components = super.find<T>(query, false);
-        let locator = query.locator;
+    public find<T>(locator: any, required: boolean): T[] {
+        let components = super.find<T>(locator, false);
 
         // Try to create component
         if (components.length == 0 && this.buildEnabled) {

@@ -1,5 +1,4 @@
 import { IReferences } from 'pip-services-commons-node';
-import { ReferenceQuery } from 'pip-services-commons-node';
 export declare class ReferencesDecorator implements IReferences {
     constructor(baseReferences: IReferences, parentReferences: IReferences);
     baseReferences: IReferences;
@@ -12,5 +11,5 @@ export declare class ReferencesDecorator implements IReferences {
     getOneRequired<T>(locator: any): T;
     getOptional<T>(locator: any): T[];
     getRequired<T>(locator: any): T[];
-    find<T>(query: ReferenceQuery, required: boolean): T[];
+    find<T>(locator: any, required: boolean): T[];
 }

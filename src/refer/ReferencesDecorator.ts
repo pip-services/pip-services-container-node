@@ -1,5 +1,4 @@
 import { IReferences } from 'pip-services-commons-node';
-import { ReferenceQuery } from 'pip-services-commons-node';
 
 export class ReferencesDecorator implements IReferences {
 
@@ -29,7 +28,7 @@ export class ReferencesDecorator implements IReferences {
 		
     public getOneOptional<T>(locator: any): T {
     	try {
-	        let components = this.find<T>(new ReferenceQuery(locator), false);
+	        let components = this.find<T>(locator, false);
             return components.length > 0 ? components[0] : null;
     	} catch (ex) {
     		return null;
@@ -37,24 +36,24 @@ export class ReferencesDecorator implements IReferences {
     }
 
     public getOneRequired<T>(locator: any): T {
-        let components = this.find<T>(new ReferenceQuery(locator), true);
+        let components = this.find<T>(locator, true);
         return components.length > 0 ? components[0] : null;
     }
 
     public getOptional<T>(locator: any): T[] {
     	try {
-    		return this.find<T>(new ReferenceQuery(locator), false);
+    		return this.find<T>(locator, false);
     	} catch (ex) {
             return [];
     	}
     }
 
     public getRequired<T>(locator: any): T[] {
-        return this.find<T>(new ReferenceQuery(locator), true);
+        return this.find<T>(locator, true);
     }
 
-	public find<T>(query: ReferenceQuery, required: boolean): T[] {
-		return this.baseReferences.find<T>(query, required);
+	public find<T>(locator: any, required: boolean): T[] {
+		return this.baseReferences.find<T>(locator, required);
     }
 
 }
