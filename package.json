@@ -49,6 +49,7 @@
         "@types/chai": "*",
         "mocha": "*",
         "chai": "*",
-        "matcha": "*"
+        "matcha": "*",
+        "mocha-teamcity-reporter": "^1.1.1"
     }
 }
