@@ -11,8 +11,8 @@ import { Descriptor } from 'pip-services-commons-node';
 import { ContainerInfoFactory } from '../info/ContainerInfoFactory';
 
 export class DefaultContainerFactory extends CompositeFactory {
-	public static readonly Descriptor: Descriptor = new Descriptor("pip-services-container", "factory", "container", "default", "1.0");
-	
+    public static readonly Descriptor: Descriptor = new Descriptor("pip-services-container", "factory", "container", "default", "1.0");
+
     public constructor(...factories: IFactory[]) {
         super(...factories);
 

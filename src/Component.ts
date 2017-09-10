@@ -5,7 +5,7 @@ import { IReferenceable } from 'pip-services-commons-node';
 import { DependencyResolver } from 'pip-services-commons-node';
 import { CompositeLogger } from 'pip-services-commons-node';
 import { CompositeCounters } from 'pip-services-commons-node';
-
+  
 export class Component implements IConfigurable, IReferenceable {
     protected _dependencyResolver: DependencyResolver = new DependencyResolver();
     protected _logger: CompositeLogger = new CompositeLogger();

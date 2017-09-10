@@ -1,6 +1,6 @@
 {
     "name": "pip-services-container-node",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "author": "Conceptual Vision Consulting LLC",
     "description": "IoC container for Pip.Services in Node.js",
     "contributors": [
@@ -30,15 +30,16 @@
         "build": "tsc",
         "watch": "tsc --watch",
         "test": "mocha -t 10000 -R spec -u tdd --recursive ./obj/test",
+        "test-tc": "mocha -t 10000 -R mocha-teamcity-reporter -u tdd --recursive ./obj/test",
         "retest": "tsc && mocha -t 10000 -R spec -u tdd --recursive ./obj/test",
         "benchmark": "matcha -R clean -I tdd ./obj/benchmark/run.js",
         "rebenchmark": "tsc && matcha -R clean -I tdd ./obj/benchmark/run.js",
         "docgen": "typedoc --out doc/api src --mode file --excludeExternals --target ES6 --ignoreCompilerErrors --readme doc/ApiReference.md"
     },
     "dependencies": {
-        "lodash":  "^4.17.0",
-        "async":  "^2.1.0",
-        "pip-services-commons-node": "^2.4.0"
+        "lodash": "^4.17.0",
+        "async": "^2.1.0",
+        "pip-services-commons-node": "^2.6.3"
     },
     "devDependencies": {
         "@types/node": "*",
