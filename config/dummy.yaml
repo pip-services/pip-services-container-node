@@ -7,3 +7,8 @@
 
 - type: "DummyController,./obj/examples/DummyController"
   message: "Hello {{ USER }} from dummy controller #2"
+
+{{#THIRD_CONTROLLER}}
+- type: "DummyController,./obj/examples/DummyController"
+  message: "Hello {{ USER }} from dummy controller #3"
+{{/THIRD_CONTROLLER}}
