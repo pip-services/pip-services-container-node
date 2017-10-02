@@ -1,6 +1,6 @@
 {
     "name": "pip-services-container-node",
-    "version": "2.2.3",
+    "version": "2.3.0",
     "author": "Conceptual Vision Consulting LLC",
     "description": "IoC container for Pip.Services in Node.js",
     "contributors": [

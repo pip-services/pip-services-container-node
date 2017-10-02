@@ -7,7 +7,7 @@ const Container_1 = require("./Container");
 class ProcessContainer extends Container_1.Container {
     constructor(name, description) {
         super(name, description);
-        this._configPath = './config/config.yaml';
+        this._configPath = './config/config.yml';
         this._logger = new pip_services_commons_node_1.ConsoleLogger();
     }
     getConfigPath(args) {

@@ -7,7 +7,7 @@ import { ContainerConfig } from './config/ContainerConfig';
 import { Container } from './Container';
 
 export class ProcessContainer extends Container {
-    protected _configPath: string = './config/config.yaml';
+    protected _configPath: string = './config/config.yml';
 
     public constructor(name?: string, description?: string) {
         super(name, description);
