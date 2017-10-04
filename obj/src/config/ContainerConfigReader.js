@@ -11,7 +11,7 @@ class ContainerConfigReader {
         let ext = path.split('.').pop();
         if (ext == "json")
             return ContainerConfigReader.readFromJsonFile(correlationId, path, parameters);
-        if (ext == "yaml")
+        if (ext == "yaml" || ext == "yml")
             return ContainerConfigReader.readFromYamlFile(correlationId, path, parameters);
         // By default read as JSON
         return ContainerConfigReader.readFromJsonFile(correlationId, path, parameters);
