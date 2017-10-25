@@ -39,7 +39,7 @@ export class ProcessContainer extends Container {
                 if (arg == "--param" || arg == "--params" || arg == "-p") {
                     if (line.length > 0)
                         line = line + ';';
-                    line = line + nextArg
+                    line = line + nextArg;
                     index++;
                 }
             }
