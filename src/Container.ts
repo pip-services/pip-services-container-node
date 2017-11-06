@@ -38,6 +38,7 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
 
     public readConfigFromFile(correlationId: string, path: string, parameters: ConfigParams): void {
         this._config = ContainerConfigReader.readFromFile(correlationId, path, parameters);
+        this._logger.trace(correlationId, this._config.toString());
     }
 
 	public setReferences(references: IReferences): void { 

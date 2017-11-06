@@ -22,6 +22,7 @@ class Container {
     }
     readConfigFromFile(correlationId, path, parameters) {
         this._config = ContainerConfigReader_1.ContainerConfigReader.readFromFile(correlationId, path, parameters);
+        this._logger.trace(correlationId, this._config.toString());
     }
     setReferences(references) {
         // Override in child classes
