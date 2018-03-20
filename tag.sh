@@ -8,19 +8,5 @@ TAG="v${VERSION}"
 set -e
 set -o pipefail
 
-# Login to npm
-if [ -z "${NPM_USER}" ]; then
-npm login
-else
-# npm login <<!
-# $NPM_USER
-# $NPM_PASS
-# $NPM_EMAIL
-# !
-npm-cli-login
-fi
-
 git tag $TAG
 git push --tags
-
-npm publish
