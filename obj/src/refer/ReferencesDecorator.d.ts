@@ -6,6 +6,7 @@ export declare class ReferencesDecorator implements IReferences {
     put(locator: any, component: any): any;
     remove(locator: any): any;
     removeAll(locator: any): any[];
+    getAllLocators(): any[];
     getAll(): any[];
     getOneOptional<T>(locator: any): T;
     getOneRequired<T>(locator: any): T;

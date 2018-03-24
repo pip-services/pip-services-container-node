@@ -22,7 +22,11 @@ export class ReferencesDecorator implements IReferences {
 		return this.baseReferences.removeAll(locator);
 	}
 
-    public getAll(): any[] {
+    public getAllLocators(): any[] {
+		return this.baseReferences.getAllLocators();
+	}
+
+	public getAll(): any[] {
 		return this.baseReferences.getAll();
 	}
 		

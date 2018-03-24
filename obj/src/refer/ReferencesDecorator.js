@@ -14,6 +14,9 @@ class ReferencesDecorator {
     removeAll(locator) {
         return this.baseReferences.removeAll(locator);
     }
+    getAllLocators() {
+        return this.baseReferences.getAllLocators();
+    }
     getAll() {
         return this.baseReferences.getAll();
     }

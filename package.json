@@ -1,6 +1,6 @@
 {
     "name": "pip-services-container-node",
-    "version": "2.3.2",
+    "version": "2.3.3",
     "author": "Conceptual Vision Consulting LLC",
     "description": "IoC container for Pip.Services in Node.js",
     "contributors": [
@@ -39,7 +39,7 @@
     "dependencies": {
         "lodash": "^4.17.0",
         "async": "^2.1.0",
-        "pip-services-commons-node": "^2.7.0"
+        "pip-services-commons-node": "^2.9.4"
     },
     "devDependencies": {
         "@types/node": "*",
