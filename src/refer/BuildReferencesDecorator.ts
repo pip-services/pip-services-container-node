@@ -60,7 +60,7 @@ export class BuildReferencesDecorator extends ReferencesDecorator {
         let components = super.find<T>(locator, false);
 
         // Try to create component
-        if (components.length == 0) {
+        if (required && components.length == 0) {
             let factory = this.findFactory(locator);
             let component = this.create(locator, factory);
             if (component != null) {
