@@ -6,7 +6,7 @@ import { DefaultConfigReaderFactory } from 'pip-services-commons-node';
 import { DefaultCacheFactory } from 'pip-services-commons-node';
 import { DefaultCredentialStoreFactory } from 'pip-services-commons-node';
 import { DefaultDiscoveryFactory } from 'pip-services-commons-node';
-import { InfoFactory } from 'pip-services-commons-node';
+import { DefaultInfoFactory } from 'pip-services-commons-node';
 import { Descriptor } from 'pip-services-commons-node';
 
 export class DefaultContainerFactory extends CompositeFactory {
@@ -15,7 +15,7 @@ export class DefaultContainerFactory extends CompositeFactory {
     public constructor(...factories: IFactory[]) {
         super(...factories);
 
-        this.add(new InfoFactory());
+        this.add(new DefaultInfoFactory());
         this.add(new DefaultLoggerFactory());
         this.add(new DefaultCountersFactory());
         this.add(new DefaultConfigReaderFactory());

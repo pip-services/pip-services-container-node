@@ -31,7 +31,11 @@ class Container {
         // Override in child classes
     }
     initReferences(references) {
-        references.put(pip_services_commons_node_6.InfoFactory.ContextInfoDescriptor, this._info);
+        let existingInfo = references.getOneOptional(pip_services_commons_node_6.DefaultInfoFactory.ContextInfoDescriptor);
+        if (existingInfo == null)
+            references.put(pip_services_commons_node_6.DefaultInfoFactory.ContextInfoDescriptor, this._info);
+        else
+            this._info = existingInfo;
         references.put(DefaultContainerFactory_1.DefaultContainerFactory.Descriptor, this._factories);
     }
     isOpened() {

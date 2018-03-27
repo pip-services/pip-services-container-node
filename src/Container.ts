@@ -13,7 +13,7 @@ import { InvalidStateException } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
 import { IConfigurable } from 'pip-services-commons-node';
 import { ContextInfo } from 'pip-services-commons-node';
-import { InfoFactory } from 'pip-services-commons-node';
+import { DefaultInfoFactory } from 'pip-services-commons-node';
 
 import { DefaultContainerFactory } from './build/DefaultContainerFactory';
 import { ContainerConfig } from './config/ContainerConfig';
@@ -50,7 +50,11 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
     }
 
     private initReferences(references: IReferences): void {
-        references.put(InfoFactory.ContextInfoDescriptor, this._info);
+        let existingInfo = references.getOneOptional<ContextInfo>(DefaultInfoFactory.ContextInfoDescriptor);
+        if (existingInfo == null)
+            references.put(DefaultInfoFactory.ContextInfoDescriptor, this._info);
+        else this._info = existingInfo;
+        
         references.put(DefaultContainerFactory.Descriptor, this._factories);
     }
 

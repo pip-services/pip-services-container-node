@@ -12,7 +12,7 @@ const pip_services_commons_node_9 = require("pip-services-commons-node");
 class DefaultContainerFactory extends pip_services_commons_node_1.CompositeFactory {
     constructor(...factories) {
         super(...factories);
-        this.add(new pip_services_commons_node_8.InfoFactory());
+        this.add(new pip_services_commons_node_8.DefaultInfoFactory());
         this.add(new pip_services_commons_node_2.DefaultLoggerFactory());
         this.add(new pip_services_commons_node_3.DefaultCountersFactory());
         this.add(new pip_services_commons_node_4.DefaultConfigReaderFactory());
