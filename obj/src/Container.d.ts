@@ -5,14 +5,14 @@ import { IUnreferenceable } from 'pip-services-commons-node';
 import { ILogger } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
 import { IConfigurable } from 'pip-services-commons-node';
+import { ContextInfo } from 'pip-services-commons-node';
 import { DefaultContainerFactory } from './build/DefaultContainerFactory';
 import { ContainerConfig } from './config/ContainerConfig';
-import { ContainerInfo } from './info/ContainerInfo';
 import { ContainerReferences } from './refer/ContainerReferences';
 export declare class Container implements IConfigurable, IReferenceable, IUnreferenceable, IOpenable {
     protected _logger: ILogger;
     protected _factories: DefaultContainerFactory;
-    protected _info: ContainerInfo;
+    protected _info: ContextInfo;
     protected _config: ContainerConfig;
     protected _references: ContainerReferences;
     constructor(name?: string, description?: string);

@@ -4,18 +4,18 @@ const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
 const pip_services_commons_node_3 = require("pip-services-commons-node");
 const pip_services_commons_node_4 = require("pip-services-commons-node");
+const pip_services_commons_node_5 = require("pip-services-commons-node");
+const pip_services_commons_node_6 = require("pip-services-commons-node");
 const DefaultContainerFactory_1 = require("./build/DefaultContainerFactory");
 const ContainerConfig_1 = require("./config/ContainerConfig");
 const ContainerConfigReader_1 = require("./config/ContainerConfigReader");
-const ContainerInfo_1 = require("./info/ContainerInfo");
-const ContainerInfoFactory_1 = require("./info/ContainerInfoFactory");
 const ContainerReferences_1 = require("./refer/ContainerReferences");
 class Container {
     constructor(name, description) {
         this._logger = new pip_services_commons_node_2.NullLogger();
         this._factories = new DefaultContainerFactory_1.DefaultContainerFactory();
         // Override in child classes
-        this._info = new ContainerInfo_1.ContainerInfo(name, description);
+        this._info = new pip_services_commons_node_5.ContextInfo(name, description);
     }
     configure(config) {
         this._config = ContainerConfig_1.ContainerConfig.fromConfig(config);
@@ -31,7 +31,7 @@ class Container {
         // Override in child classes
     }
     initReferences(references) {
-        references.put(ContainerInfoFactory_1.ContainerInfoFactory.ContainerInfoDescriptor, this._info);
+        references.put(pip_services_commons_node_6.InfoFactory.ContextInfoDescriptor, this._info);
         references.put(DefaultContainerFactory_1.DefaultContainerFactory.Descriptor, this._factories);
     }
     isOpened() {

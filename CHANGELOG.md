@@ -1,5 +1,10 @@
 # IoC container for Pip.Services in Node.js Changelog
 
+## <a name="2.4.0"></a> 2.4.0 (2018-03-26)
+
+### Features
+* ContainerInfo was replaced with ContextInfo from pip-services-commons
+
 ## <a name="2.2.0"></a> 2.2.0 (2017-04-20)
 
 ### Features

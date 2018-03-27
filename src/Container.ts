@@ -12,24 +12,24 @@ import { CompositeLogger } from 'pip-services-commons-node';
 import { InvalidStateException } from 'pip-services-commons-node';
 import { ConfigParams } from 'pip-services-commons-node';
 import { IConfigurable } from 'pip-services-commons-node';
+import { ContextInfo } from 'pip-services-commons-node';
+import { InfoFactory } from 'pip-services-commons-node';
 
 import { DefaultContainerFactory } from './build/DefaultContainerFactory';
 import { ContainerConfig } from './config/ContainerConfig';
 import { ContainerConfigReader } from './config/ContainerConfigReader';
-import { ContainerInfo } from './info/ContainerInfo';
-import { ContainerInfoFactory } from './info/ContainerInfoFactory';
 import { ContainerReferences } from './refer/ContainerReferences';
 
 export class Container implements IConfigurable, IReferenceable, IUnreferenceable, IOpenable {
     protected _logger: ILogger = new NullLogger();
     protected _factories: DefaultContainerFactory = new DefaultContainerFactory();
-    protected _info: ContainerInfo;
+    protected _info: ContextInfo;
     protected _config: ContainerConfig;
     protected _references: ContainerReferences;
 
     public constructor(name?: string, description?: string) {
         // Override in child classes
-        this._info = new ContainerInfo(name, description);
+        this._info = new ContextInfo(name, description);
     }
 
     public configure(config: ConfigParams): void {
@@ -50,7 +50,7 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
     }
 
     private initReferences(references: IReferences): void {
-        references.put(ContainerInfoFactory.ContainerInfoDescriptor, this._info);
+        references.put(InfoFactory.ContextInfoDescriptor, this._info);
         references.put(DefaultContainerFactory.Descriptor, this._factories);
     }
 
@@ -77,7 +77,7 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
 
             // Get custom description if available
             let infoDescriptor = new Descriptor("*", "container-info", "*", "*", "*");
-            this._info = this._references.getOneOptional<ContainerInfo>(infoDescriptor);
+            this._info = this._references.getOneOptional<ContextInfo>(infoDescriptor);
 
             this._references.open(correlationId, (err) => {
                 // Get reference to logger
