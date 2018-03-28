@@ -80,7 +80,7 @@ export class Container implements IConfigurable, IReferenceable, IUnreferenceabl
             this.setReferences(this._references);
 
             // Get custom description if available
-            let infoDescriptor = new Descriptor("*", "container-info", "*", "*", "*");
+            let infoDescriptor = new Descriptor("*", "context-info", "*", "*", "*");
             this._info = this._references.getOneOptional<ContextInfo>(infoDescriptor);
 
             this._references.open(correlationId, (err) => {

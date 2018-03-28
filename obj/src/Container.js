@@ -58,7 +58,7 @@ class Container {
             this._references.putFromConfig(this._config);
             this.setReferences(this._references);
             // Get custom description if available
-            let infoDescriptor = new pip_services_commons_node_1.Descriptor("*", "container-info", "*", "*", "*");
+            let infoDescriptor = new pip_services_commons_node_1.Descriptor("*", "context-info", "*", "*", "*");
             this._info = this._references.getOneOptional(infoDescriptor);
             this._references.open(correlationId, (err) => {
                 // Get reference to logger
