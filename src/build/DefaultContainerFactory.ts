@@ -7,6 +7,7 @@ import { DefaultCacheFactory } from 'pip-services-commons-node';
 import { DefaultCredentialStoreFactory } from 'pip-services-commons-node';
 import { DefaultDiscoveryFactory } from 'pip-services-commons-node';
 import { DefaultInfoFactory } from 'pip-services-commons-node';
+import { DefaultTestFactory } from '../test/DefaultTestFactory';
 import { Descriptor } from 'pip-services-commons-node';
 
 export class DefaultContainerFactory extends CompositeFactory {
@@ -22,6 +23,7 @@ export class DefaultContainerFactory extends CompositeFactory {
         this.add(new DefaultCacheFactory());
         this.add(new DefaultCredentialStoreFactory());
         this.add(new DefaultDiscoveryFactory());
+        this.add(new DefaultTestFactory());
     }
 
 }
