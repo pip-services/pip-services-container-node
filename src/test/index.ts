@@ -1,2 +1,2 @@
-export { CrashSimulator } from './CrashSimulator';
+export { Shutdown } from './Shutdown';
 export { DefaultTestFactory } from './DefaultTestFactory';

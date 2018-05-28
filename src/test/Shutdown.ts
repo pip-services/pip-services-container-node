@@ -5,7 +5,7 @@ import { IConfigurable } from "pip-services-commons-node";
 import { IOpenable } from "pip-services-commons-node";
 import { RandomInteger } from "pip-services-commons-node";
 
-export class CrashSimulator implements IConfigurable, IOpenable {
+export class Shutdown implements IConfigurable, IOpenable {
     private _interval: any;
     private _mode: string = 'exception';
     private _minTimeout: number = 300000;
@@ -29,7 +29,7 @@ export class CrashSimulator implements IConfigurable, IOpenable {
 
         let timeout = RandomInteger.nextInteger(this._minTimeout, this._maxTimeout);
         this._interval = setInterval(() => {
-            this.crash();
+            this.shutdown();
         }, timeout);
 
         if (callback) callback(null);
@@ -44,9 +44,7 @@ export class CrashSimulator implements IConfigurable, IOpenable {
         if (callback) callback(null);
     }
 
-    public crash(): void {
-        console.error(this._mode);
-
+    public shutdown(): void {
         if (this._mode == 'null' || this._mode == 'nullpointer') {
             let obj = null;
             obj.crash = 123;

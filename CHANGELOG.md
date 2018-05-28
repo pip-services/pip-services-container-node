@@ -3,7 +3,7 @@
 ## <a name="2.5.0"></a> 2.5.0 (2018-05-14)
 
 ### Features
-* Added CrashSimulator to simulate fatal errors in containers
+* Added Shutdown to simulate fatal errors in containers
 
 ## <a name="2.4.0"></a> 2.4.0 (2018-03-26)
 

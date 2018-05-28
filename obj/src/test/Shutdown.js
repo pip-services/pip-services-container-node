@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 let _ = require('lodash');
 const pip_services_commons_node_1 = require("pip-services-commons-node");
 const pip_services_commons_node_2 = require("pip-services-commons-node");
-class CrashSimulator {
+class Shutdown {
     constructor() {
         this._mode = 'exception';
         this._minTimeout = 300000;
@@ -22,7 +22,7 @@ class CrashSimulator {
             clearInterval(this._interval);
         let timeout = pip_services_commons_node_2.RandomInteger.nextInteger(this._minTimeout, this._maxTimeout);
         this._interval = setInterval(() => {
-            this.crash();
+            this.shutdown();
         }, timeout);
         if (callback)
             callback(null);
@@ -35,8 +35,7 @@ class CrashSimulator {
         if (callback)
             callback(null);
     }
-    crash() {
-        console.error(this._mode);
+    shutdown() {
         if (this._mode == 'null' || this._mode == 'nullpointer') {
             let obj = null;
             obj.crash = 123;
@@ -53,5 +52,5 @@ class CrashSimulator {
         }
     }
 }
-exports.CrashSimulator = CrashSimulator;
-//# sourceMappingURL=CrashSimulator.js.map
+exports.Shutdown = Shutdown;
+//# sourceMappingURL=Shutdown.js.map
